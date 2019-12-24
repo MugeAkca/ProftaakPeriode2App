@@ -10,7 +10,7 @@
         android:id="@+id/btnEndActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         android:text="End activity"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/divider3" />
+        app:layout_constraintTop_toTopOf="@+id/divider3"/>
 
     <TextView
         android:id="@+id/lblSpeedView"
@@ -42,24 +42,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTimeView"
-        app:layout_constraintVertical_bias="0.063" />
-
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="80sp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="224dp"
-        android:text="00:00"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/lblTimeView"
         android:layout_width="60sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="124dp"
         android:text="Time:"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,12 +60,23 @@
         android:id="@+id/speed"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="164dp"
         android:text="0 Km / H"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.323"
+        app:layout_constraintHorizontal_bias="0.287"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="236dp"
+        android:text="00:00"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <View
@@ -118,5 +118,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/divider3"
         app:layout_constraintVertical_bias="0.642" />
+
+    <TextView
+        android:id="@+id/lblCurrentActivity"
+        android:layout_width="250sp"
+        android:layout_height="55sp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="32dp"
+        android:text="Walking"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
