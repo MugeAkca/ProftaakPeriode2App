@@ -11,6 +11,7 @@ import com.example.runningapp.database.dao.ActivityTypeDao;
 import com.example.runningapp.database.dao.GoalDao;
 import com.example.runningapp.database.entity.Activity;
 import com.example.runningapp.database.entity.ActivityType;
+import com.example.runningapp.database.entity.Base;
 import com.example.runningapp.database.entity.Goal;
 
 import java.util.List;
@@ -41,66 +42,63 @@ public class RunningAppRepository {
         allActivityTypes = activityTypeDao.getAllActivityTypes();
         goalDao = database.goalDao();
         allGoals = goalDao.getAllGoals();
-
     }
 
-    public void insertActivity(Activity activity) {
-        new InsertActivityAsyncTask(activityDao).execute(activity);
+    public void insert(Base base) {
+        if(base instanceof Goal) {
+            new InsertGoalAsyncTask(goalDao).execute((Goal) base);
+        }else if(base instanceof Activity){
+            new InsertActivityAsyncTask(activityDao).execute((Activity) base);
+        }else if(base instanceof ActivityType){
+            new InsertActivityTypeAsyncTask(activityTypeDao).execute((ActivityType) base);
+        }
     }
 
-    public void updateActivity(Activity activity) {
-        new UpdateActivityAsyncTask(activityDao).execute(activity);
+    public void update(Base base){
+        if(base instanceof Goal) {
+            new UpdateGoalAsyncTask(goalDao).execute((Goal) base);
+        }else if(base instanceof Activity){
+            new UpdateActivityAsyncTask(activityDao).execute((Activity) base);
+        }else if(base instanceof ActivityType){
+            new UpdateActivityTypeAsyncTask(activityTypeDao).execute((ActivityType) base);
+        }
     }
 
-    public void deleteActivity(Activity activity) {
-        new DeleteActivityAsyncTask(activityDao).execute(activity);
+    public void delete(Base base){
+        if(base instanceof Goal) {
+            new DeleteGoalAsyncTask(goalDao).execute((Goal) base);
+        }else if(base instanceof Activity){
+            new DeleteActivityAsyncTask(activityDao).execute((Activity) base);
+        }else if(base instanceof ActivityType){
+            new DeleteActivityTypeAsyncTask(activityTypeDao).execute((ActivityType) base);
+        }
     }
 
-    public void deleteAllActivities() {
-        new DeleteAllActivitiesAsyncTask(activityDao).execute();
-    }
-
-    public void insertActivityType(ActivityType activityType) {
-        new InsertActivityTypeAsyncTask(activityTypeDao).execute(activityType);
-    }
-
-    public void updateActivityType(ActivityType activityType) {
-        new UpdateActivityTypeAsyncTask(activityTypeDao).execute(activityType);
-    }
-
-    public void deleteActivityType(ActivityType activityType) {
-        new DeleteActivityTypeAsyncTask(activityTypeDao).execute(activityType);
-    }
-
-    public void deleteAllActivityTypes() {
-        new DeleteAllActivityTypesAsyncTask(activityTypeDao).execute();
+    public void deleteAll(Base base){
+        if(base instanceof Goal) {
+            new DeleteAllGoalsAsyncTask(goalDao).execute();
+        }else if(base instanceof Activity){
+            new DeleteAllActivitysAsyncTask(activityDao).execute();
+        }else if(base instanceof ActivityType){
+            new DeleteAllActivityTypesAsyncTask(activityTypeDao).execute();
+        }
     }
 
 
-    public void insertGoal(Goal goal) {
-        new InsertGoalAsyncTask(goalDao).execute(goal);
+    public LiveData<List<Activity>> getAllActivities() {
+        return allActivities;
     }
 
-    public void updateGoal(Goal goal) {
-        new UpdateGoalAsyncTask(goalDao).execute(goal);
+
+    public LiveData<List<ActivityType>> getAllActivityTypes() {
+        return allActivityTypes;
     }
 
-    public void deleteGoal(Goal goal) {
-        new DeleteGoalAsyncTask(goalDao).execute(goal);
-    }
-
-    public void deleteAllGoals() {
-        new DeleteAllGoalsAsyncTask(goalDao).execute();
-    }
 
     public LiveData<List<Goal>> getAllGoals() {
         return allGoals;
     }
 
-    // auto background thread
-    public LiveData<List<Activity>> getAllActivities() {
-        return allActivities;
-    }
 
     private static class InsertActivityAsyncTask extends AsyncTask<Activity, Void, Void> {
 
@@ -138,23 +136,26 @@ public class RunningAppRepository {
     private static class DeleteActivityAsyncTask extends AsyncTask<Activity, Void, Void> {
         private ActivityDao activityDao;
 
+
         private DeleteActivityAsyncTask(ActivityDao activityDao) {
             this.activityDao = activityDao;
         }
 
+
+
         @Override
-        protected Void doInBackground(Activity... activitys) {
-            activityDao.delete(activitys[0]);
+        protected Void doInBackground(Activity... activities) {
+            activityDao.delete(activities[0]);
             return null;
         }
     }
 
     //
-    private static class DeleteAllActivitiesAsyncTask extends AsyncTask<Void, Void, Void> {
+    private static class DeleteAllActivitysAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private ActivityDao activityDao;
 
-        private DeleteAllActivitiesAsyncTask(ActivityDao activityDao) {
+        private DeleteAllActivitysAsyncTask(ActivityDao activityDao) {
             this.activityDao = activityDao;
         }
 
@@ -165,9 +166,6 @@ public class RunningAppRepository {
         }
     }
 
-    public LiveData<List<ActivityType>> getAllActivityTypes() {
-        return allActivityTypes;
-    }
 
     private static class InsertActivityTypeAsyncTask extends AsyncTask<ActivityType, Void, Void> {
 
@@ -231,6 +229,8 @@ public class RunningAppRepository {
             return null;
         }
     }
+
+
 
     private static class InsertGoalAsyncTask extends AsyncTask<Goal, Void, Void> {
 

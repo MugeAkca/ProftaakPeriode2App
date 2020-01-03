@@ -27,19 +27,19 @@ public class ActivityTypeViewModel extends AndroidViewModel {
     }
 
     public void insert(ActivityType activityType) {
-        repository.insertActivityType(activityType);
+        repository.insert(activityType);
     }
 
     public void update(ActivityType activityType) {
-        repository.updateActivityType(activityType);
+        repository.update(activityType);
     }
 
     public void delete(ActivityType activityType) {
-        repository.deleteActivityType(activityType);
+        repository.delete(activityType);
     }
 
-    public void deleteAllActivityTypes() {
-        repository.deleteAllActivityTypes();
+    public void deleteAllActivityTypes(ActivityType activityType) {
+        repository.deleteAll(activityType);
     }
 
     public LiveData<List<ActivityType>> getAllActivityTypes() {

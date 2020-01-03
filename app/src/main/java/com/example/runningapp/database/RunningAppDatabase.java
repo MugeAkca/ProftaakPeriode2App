@@ -68,8 +68,6 @@ public abstract class RunningAppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids){
-            goalDao.deleteAllGoals();
-            activityDao.deleteAll();
             return null;
         }
     }

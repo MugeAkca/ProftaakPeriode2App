@@ -9,7 +9,7 @@ import java.util.Date;
 // Room entity for both creating tables and instantiating objects from the database
 // Room uses annotations to to identify how each part of this class relates to an entity in the db, room uses this info to generate code
 @Entity(tableName = "location_table")
-public class Location {
+public class Location implements Base {
     @PrimaryKey(autoGenerate = true)
     private int location_id;
     private int activity_id;

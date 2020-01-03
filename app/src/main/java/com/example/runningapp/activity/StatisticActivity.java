@@ -31,6 +31,7 @@ public class StatisticActivity extends AppCompatActivity {
 
 
     private ActivityViewModel activityViewModel;
+    private Activity activity;
 
 
     @Override
@@ -55,7 +56,7 @@ public class StatisticActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel.class);
-        activityViewModel.getAllActivitys().observe(this, new Observer<List<Activity>>() {
+        activityViewModel.getAllActivities().observe(this, new Observer<List<Activity>>() {
             @Override
             public void onChanged(List<Activity> activitys) {
                 adapter.submitList(activitys);
@@ -138,14 +139,11 @@ public class StatisticActivity extends AppCompatActivity {
     // Delete item
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete_all_activities:
-                activityViewModel.deleteAllActivitys();
-                Toast.makeText(this, "All activitys deleted", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.delete_all_activities) {
+            activityViewModel.deleteAllActivitys(activity);
+            Toast.makeText(this, "All activitys deleted", Toast.LENGTH_SHORT).show();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

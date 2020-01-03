@@ -62,7 +62,7 @@ public class AddEditStatisticActivity extends AppCompatActivity {
         String speedActivity = editTextEndDate.getText().toString();
 
         if (activityTypeId.trim().isEmpty()|| timeActivity.trim().isEmpty() || speedActivity.trim().isEmpty()) {
-            Toast.makeText(this, "Vul een activiteit, tijd of activity in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vul een activiteit, tijd of Activity in", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -90,14 +90,11 @@ public class AddEditStatisticActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_activity_type:
-                saveActivity();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.save_activity_type) {
+            saveActivity();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
 

@@ -27,19 +27,19 @@ public class GoalViewModel extends AndroidViewModel {
     }
 
     public void insert(Goal goal) {
-        repository.insertGoal(goal);
+        repository.insert(goal);
     }
 
     public void update(Goal goal) {
-        repository.updateGoal(goal);
+        repository.update(goal);
     }
 
     public void delete(Goal goal) {
-        repository.deleteGoal(goal);
+        repository.delete(goal);
     }
 
-    public void deleteAllGoals() {
-        repository.deleteAllGoals();
+    public void deleteAllGoals(Goal goal) {
+        repository.delete(goal);
     }
 
     public LiveData<List<Goal>> getAllGoals() {

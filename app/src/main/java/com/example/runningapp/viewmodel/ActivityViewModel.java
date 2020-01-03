@@ -18,31 +18,31 @@ import java.util.List;
 // Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
 public class ActivityViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
-    private LiveData<List<Activity>> allActivitys;
+    private LiveData<List<Activity>> allActivities;
 
     public ActivityViewModel(@NonNull Application application) {
         super(application);
         repository = new RunningAppRepository(application);
-        allActivitys = repository.getAllActivities();
+        allActivities = repository.getAllActivities();
     }
 
     public void insert(Activity activity) {
-        repository.insertActivity(activity);
+        repository.insert(activity);
     }
 
     public void update(Activity activity) {
-        repository.updateActivity(activity);
+        repository.update(activity);
     }
 
     public void delete(Activity activity) {
-        repository.deleteActivity(activity);
+        repository.delete(activity);
     }
 
-    public void deleteAllActivitys() {
-        repository.deleteAllActivities();
+    public void deleteAllActivitys(Activity activity) {
+        repository.deleteAll(activity);
     }
 
-    public LiveData<List<Activity>> getAllActivitys() {
-        return allActivitys;
+    public LiveData<List<Activity>> getAllActivities() {
+        return allActivities;
     }
 }

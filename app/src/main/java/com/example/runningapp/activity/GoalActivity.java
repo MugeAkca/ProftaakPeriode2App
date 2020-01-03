@@ -31,6 +31,7 @@ public class GoalActivity extends AppCompatActivity {
     public static final int EDIT_NOTE_REQUEST = 2;
 
     private GoalViewModel goalViewModel;
+    private Goal goal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +136,7 @@ public class GoalActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_all_goals) {
-            goalViewModel.deleteAllGoals();
+            goalViewModel.deleteAllGoals(goal);
             Toast.makeText(this, "All goals deleted", Toast.LENGTH_SHORT).show();
             return true;
         }

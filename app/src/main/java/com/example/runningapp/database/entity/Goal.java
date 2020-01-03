@@ -3,6 +3,7 @@ package com.example.runningapp.database.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.lang.annotation.Annotation;
 import java.sql.Time;
 
 import static java.lang.Integer.parseInt;
@@ -10,10 +11,11 @@ import static java.lang.Integer.parseInt;
 // Room entity for both creating tables and instantiating objects from the database
 // Room uses annotations to to identify how each part of this class relates to an entity in the db, room uses this info to generate code
 @Entity(tableName = "goal_table")
-public class Goal {
+public class Goal implements Base {
+
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    int id;
     private int activity_type_id;
     private Time time_goal;
     private int speed_goal;

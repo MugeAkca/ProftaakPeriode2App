@@ -31,6 +31,7 @@ public class ActivityTypeActivity extends AppCompatActivity {
     public static final int EDIT_NOTE_REQUEST = 2;
 
     private ActivityTypeViewModel activityTypeViewModel;
+    private ActivityType activityType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +130,8 @@ public class ActivityTypeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_all_activity_types) {
-            activityTypeViewModel.deleteAllActivityTypes();
-            Toast.makeText(this, "All activity types deleted", Toast.LENGTH_SHORT).show();
+            activityTypeViewModel.deleteAllActivityTypes(activityType);
+            Toast.makeText(this, "All Activity types deleted", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
