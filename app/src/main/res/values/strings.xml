@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">RunningApp</string>
+    <string name="user_name">Your personal sport app</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_goals">Goals</string>
+    <string name="nav_statistics">Statistics</string>
+
+    <string name="nav_open_drawer">Open navigation drawer</string>
+    <string name="nav_close_drawer">Close navigation drawer</string>
+    <string name="delete_all_goals">Delete all goals</string>
+    <string name="delete_all_activities">Delete all activities</string>
+    <string name="delete_all_activities_types">Delete all activities types</string>
+    <string name="jogging">Jogging</string>
+    <string name="save">Save</string>
+    <string name="end_activity">End activity</string>
+    <string name="speed">Speed:</string>
+    <string name="time">Time:</string>
+    <string name="_0_km_h">0 Km / H</string>
+    <string name="_00_00">00:00</string>
+    <string name="location">Location</string>
+    <string name="walking">Walking</string>
+    <string name="title">Title</string>
+    <string name="activity_type">Activity type</string>
+    <string name="time_goal">Time goal</string>
+    <string name="speed_goal">Speed goal</string>
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="choose_an_activity">Choose an activity</string>
+    <string name="start_activity">Start activity</string>
+    <string name="current_tempature">Current tempature:</string>
 </resources>

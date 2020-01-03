@@ -2,26 +2,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.runningapp">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDxjRm-WgNAxnvO7iBuNFO_S1fXXbBCTss"/>
+            android:value="AIzaSyDxjRm-WgNAxnvO7iBuNFO_S1fXXbBCTss" />
 
-        <activity android:name=".ActivityEndActivity"></activity>
-        <activity android:name=".ActivityStartActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.ActivityEndActivity" />
+        <activity android:name=".activity.ActivityStartActivity" />
+        <activity android:theme="@style/AppTheme2" android:name=".activity.GoalActivity"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditGoalActivity"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.StatisticActivity"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditStatisticActivity"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivityTypeActivity"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditActivityTypeActivity"/>
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

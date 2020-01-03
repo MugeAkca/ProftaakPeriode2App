@@ -1,0 +1,48 @@
+package com.example.runningapp.viewmodel;
+
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.example.runningapp.database.ActivityRepository;
+import com.example.runningapp.database.entity.Activity;
+
+import java.util.List;
+
+// The ViewModel provides data to the UI and survives configuration changes.
+// A ViewModel acts as a communication center between the Repository and the UI.
+// You can also use a ViewModel to share data between fragments.
+// Separating your app's UI data from your Activity and Fragment classes lets you better follow the single responsibility principle:
+// Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
+public class ActivityViewModel extends AndroidViewModel {
+    private ActivityRepository repository;
+    private LiveData<List<Activity>> allActivitys;
+
+    public ActivityViewModel(@NonNull Application application) {
+        super(application);
+        repository = new ActivityRepository(application);
+        allActivitys = repository.getAllActivitys();
+    }
+
+    public void insert(Activity activity) {
+        repository.insert(activity);
+    }
+
+    public void update(Activity activity) {
+        repository.update(activity);
+    }
+
+    public void delete(Activity activity) {
+        repository.delete(activity);
+    }
+
+    public void deleteAllActivitys() {
+        repository.deleteAllActivitys();
+    }
+
+    public LiveData<List<Activity>> getAllActivitys() {
+        return allActivitys;
+    }
+}

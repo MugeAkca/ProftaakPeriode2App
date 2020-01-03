@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityStartActivity">
+    tools:context=".activity.ActivityStartActivity">
 
     <Button
         android:id="@+id/btnEndActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="End activity"
+        android:text="@string/end_activity"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
@@ -35,7 +35,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="33dp"
-        android:text="Speed:"
+        android:text="@string/speed"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
         android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
-        android:text="Time:"
+        android:text="@string/time"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.079"
@@ -61,7 +61,7 @@
         android:layout_width="80sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="164dp"
-        android:text="0 Km / H"
+        android:text="@string/_0_km_h"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.287"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
         android:layout_marginEnd="236dp"
-        android:text="00:00"
+        android:text="@string/_00_00"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -86,7 +86,8 @@
         android:layout_marginTop="316dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toTopOf="@+id/mapView"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:id="@+id/divider2"
@@ -95,7 +96,8 @@
         android:layout_marginTop="200dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:layout_editor_absoluteX="-28dp" />
+        tools:layout_editor_absoluteX="-28dp"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:id="@+id/divider3"
@@ -104,13 +106,14 @@
         android:layout_marginTop="36dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/lblLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"
+        android:text="@string/location"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +128,7 @@
         android:layout_height="55sp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="32dp"
-        android:text="Walking"
+        android:text="@string/walking"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
