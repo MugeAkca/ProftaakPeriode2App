@@ -30,7 +30,7 @@ public interface GoalDao {
     @Query("DELETE FROM goal_table")
     void deleteAllGoals();
 
-    //LiveData observes table live. whenever data changes to db. It will update data to view.
+    //LiveData observes table live. whenever data changes to db. It will updateActivity data to view.
     @Query("SELECT * FROM goal_table")
     LiveData<List<Goal>> getAllGoals();
 

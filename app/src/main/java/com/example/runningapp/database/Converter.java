@@ -5,7 +5,7 @@ import androidx.room.TypeConverter;
 import java.sql.Date;
 import java.sql.Time;
 
-public class TimeTypeConverter {
+public class Converter {
 
         @TypeConverter
         public static Time toTime(Long dateLong){
@@ -15,5 +15,15 @@ public class TimeTypeConverter {
         @TypeConverter
         public static long fromTime(Time date){
             return date == null ? null :date.getTime();
+        }
+
+        @TypeConverter
+        public long convertDateToLong(Date date) {
+            return date.getTime();
+        }
+
+        @TypeConverter
+        public Date convertLongToDate(long time) {
+            return new Date(time);
         }
     }

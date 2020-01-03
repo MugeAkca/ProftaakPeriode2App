@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.runningapp.database.ActivityRepository;
+import com.example.runningapp.database.RunningAppRepository;
 import com.example.runningapp.database.entity.Activity;
 
 import java.util.List;
@@ -17,29 +17,29 @@ import java.util.List;
 // Separating your app's UI data from your Activity and Fragment classes lets you better follow the single responsibility principle:
 // Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
 public class ActivityViewModel extends AndroidViewModel {
-    private ActivityRepository repository;
+    private RunningAppRepository repository;
     private LiveData<List<Activity>> allActivitys;
 
     public ActivityViewModel(@NonNull Application application) {
         super(application);
-        repository = new ActivityRepository(application);
-        allActivitys = repository.getAllActivitys();
+        repository = new RunningAppRepository(application);
+        allActivitys = repository.getAllActivities();
     }
 
     public void insert(Activity activity) {
-        repository.insert(activity);
+        repository.insertActivity(activity);
     }
 
     public void update(Activity activity) {
-        repository.update(activity);
+        repository.updateActivity(activity);
     }
 
     public void delete(Activity activity) {
-        repository.delete(activity);
+        repository.deleteActivity(activity);
     }
 
     public void deleteAllActivitys() {
-        repository.deleteAllActivitys();
+        repository.deleteAllActivities();
     }
 
     public LiveData<List<Activity>> getAllActivitys() {

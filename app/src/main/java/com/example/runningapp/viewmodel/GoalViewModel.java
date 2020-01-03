@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.runningapp.database.GoalRepository;
+import com.example.runningapp.database.RunningAppRepository;
 import com.example.runningapp.database.entity.Goal;
 
 import java.util.List;
@@ -17,25 +17,25 @@ import java.util.List;
 // Separating your app's UI data from your Activity and Fragment classes lets you better follow the single responsibility principle:
 // Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
 public class GoalViewModel extends AndroidViewModel {
-    private GoalRepository repository;
+    private RunningAppRepository repository;
     private LiveData<List<Goal>> allGoals;
 
     public GoalViewModel(@NonNull Application application) {
         super(application);
-        repository = new GoalRepository(application);
+        repository = new RunningAppRepository(application);
         allGoals = repository.getAllGoals();
     }
 
     public void insert(Goal goal) {
-        repository.insert(goal);
+        repository.insertGoal(goal);
     }
 
     public void update(Goal goal) {
-        repository.update(goal);
+        repository.updateGoal(goal);
     }
 
     public void delete(Goal goal) {
-        repository.delete(goal);
+        repository.deleteGoal(goal);
     }
 
     public void deleteAllGoals() {
