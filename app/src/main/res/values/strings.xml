@@ -29,4 +29,5 @@
     <string name="choose_an_activity">Choose an activity</string>
     <string name="start_activity">Start activity</string>
     <string name="current_tempature">Current tempature:</string>
+    <string name="lorem">lorem</string>
 </resources>

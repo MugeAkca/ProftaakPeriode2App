@@ -14,6 +14,7 @@ import java.util.List;
 
 // Validates SQL at compile-time and associates it with a method
 // Queries must be executed on an separate thread
+// retrieves all data from entity
 @Dao
 public interface ActivityDao {
     @Insert

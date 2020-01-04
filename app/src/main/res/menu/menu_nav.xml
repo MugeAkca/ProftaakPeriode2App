@@ -4,19 +4,19 @@
         <item
             android:id="@+id/nav_home"
             android:checked="true"
-            android:icon="@android:drawable/sym_action_email"
+            android:icon="@drawable/ic_home"
             android:title="@string/nav_home" />
         <item
             android:id="@+id/nav_goals"
-            android:icon="@android:drawable/ic_menu_send"
+            android:icon="@drawable/ic_running"
             android:title="@string/nav_goals" />
         <item
             android:id="@+id/nav_statistics"
-            android:icon="@android:drawable/ic_menu_delete"
+            android:icon="@drawable/ic_chart"
             android:title="@string/nav_statistics" />
         <item
             android:id="@+id/nav_activity_type"
-            android:icon="@android:drawable/ic_menu_delete"
+            android:icon="@drawable/ic_settings"
             android:title="@string/activity_type" />
     </group>
 </menu>

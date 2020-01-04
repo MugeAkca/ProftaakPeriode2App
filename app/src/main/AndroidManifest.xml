@@ -23,11 +23,8 @@
 
         <activity android:name=".activity.ActivityEndActivity" />
         <activity android:name=".activity.ActivityStartActivity" />
-        <activity android:theme="@style/AppTheme2" android:name=".activity.GoalActivity"/>
         <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditGoalActivity"/>
-        <activity android:theme="@style/AppTheme2" android:name=".activity.StatisticActivity"/>
         <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditStatisticActivity"/>
-        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivityTypeActivity"/>
         <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditActivityTypeActivity"/>
         <activity android:name=".activity.MainActivity">
             <intent-filter>

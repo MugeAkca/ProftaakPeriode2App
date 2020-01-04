@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.runningapp.database.entity.ActivityType;
 import com.example.runningapp.fragment.ActivityTypeFragment;
 import com.example.runningapp.fragment.MainFragment;
 import com.example.runningapp.R;
@@ -23,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,7 +8,7 @@ import java.sql.Date;
 import static java.lang.Integer.parseInt;
 
 
-// Room entity for both creating tables and instantiating objects from the database
+// Room entity for both creating sqlite tables and instantiating objects from the database
 // Room uses annotations to to identify how each part of this class relates to an entity in the db, room uses this info to generate code
 @Entity(tableName = "activity_table")
 public class Activity implements Base {

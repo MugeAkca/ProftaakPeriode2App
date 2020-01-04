@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.runningapp.R;
 import com.example.runningapp.database.entity.Goal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+// <> recyclerview knows which viewholders we want to use
 public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
 
     private static final DiffUtil.ItemCallback<Goal> DIFF_CALLBACK = new DiffUtil.ItemCallback<Goal>() {
@@ -29,21 +33,26 @@ public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
         }
     };
 
-    //private List<Goal> goals = new ArrayList<>();
+//    private List<Goal> goals = new ArrayList<>();
     private OnItemClickListener listener;
 
     public GoalAdapter() {
         super(DIFF_CALLBACK);
     }
 
+    // create and return goalholder
     @NonNull
     @Override
     public GoalHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // parerent = recyclerview -> context mainactivity
+        // -> layout, context, false
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_edit_goal_item, parent, false);
         return new GoalHolder(itemView);
     }
 
+    // Get data from single object java object into views of viewholder
+    // cant parse int directly to textview
     @Override
     public void onBindViewHolder(@NonNull GoalHolder holder, int position) {
         Goal currentGoal = getItem(position);
@@ -51,8 +60,6 @@ public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
         holder.textViewTimeGoal.setText(String.valueOf(currentGoal.getTime_goal()));
         holder.textViewSpeedGoal.setText(String.valueOf(currentGoal.getSpeed_goal()));
     }
-
-
 
     public Goal getGoalAt(int position) {
         return getItem(position);
@@ -66,14 +73,15 @@ public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
         void onItemClick(Goal goal);
     }
 
+    // Hold views in single recyclerview items
     class GoalHolder extends RecyclerView.ViewHolder {
         private TextView textViewActivityType;
         private TextView textViewTimeGoal;
         private TextView textViewSpeedGoal;
 
-        public GoalHolder(@NonNull View itemView) {
+        // assign textviews
+        GoalHolder(@NonNull View itemView) {
             super(itemView);
-
             textViewActivityType = itemView.findViewById(R.id.text_view_activity_type);
             textViewTimeGoal = itemView.findViewById(R.id.text_view_time_goal);
             textViewSpeedGoal = itemView.findViewById(R.id.text_view_speed_goal);
