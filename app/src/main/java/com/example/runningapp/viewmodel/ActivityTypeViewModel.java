@@ -16,6 +16,10 @@ import java.util.List;
 // You can also use a ViewModel to share data between fragments.
 // Separating your app's UI data from your Activity and Fragment classes lets you better follow the single responsibility principle:
 // Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
+// store and proces data ui and communicate with model
+// data doesnt get lost config changes viewmodel only removed memory as lifecycle activity is over (activity finhised or detached)
+// never store or reference activity because the viewmodel is designed to outlive activity after it is destroyed (memory leaks)
+// We exctend viewmodel we can pass data down to the database
 public class ActivityTypeViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
     private LiveData<List<ActivityType>> allActivityTypes;
