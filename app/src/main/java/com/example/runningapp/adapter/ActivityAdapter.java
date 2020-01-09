@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.runningapp.R;
 import com.example.runningapp.database.entity.Activity;
-import com.example.runningapp.database.entity.ActivityType;
+import com.example.runningapp.database.entity.Category;
 
 public class ActivityAdapter extends ListAdapter<Activity, ActivityAdapter.ActivityHolder> {
 

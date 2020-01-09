@@ -8,37 +8,60 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.runningapp.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import org.w3c.dom.Text;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+import static com.example.runningapp.activity.ActivityEndActivity.END_TIME;
+import static com.example.runningapp.activity.ActivityEndActivity.START_TIME;
+
 
 public class ActivityStartActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap gmap;
-    
-
+    private TextView activityTypeNameTextView;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
    // private GeoDataClient mGeoDataClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        String activityTypeId = intent.getStringExtra("EXTRA_ID");
+        String activityTypeName = intent.getStringExtra("EXTRA_ACTIVITY_TYPE_NAME");
+
+        Date date = new Date();
+        long time = date.getTime();
+        final Timestamp ts = new Timestamp(time);
+        final String startTime = intent.getStringExtra("START_TIME");
+
+
         setContentView(R.layout.activity_activity_started);
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button btnEndActivity = findViewById(R.id.btnEndActivity);
+        Button btnEndActivity = findViewById(R.id.btnEndActivityNow);
         btnEndActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivityEndActivity.class);
+                intent.putExtra(START_TIME, startTime);
+                intent.putExtra(END_TIME, ts.toString());
                 v.getContext().startActivity(intent);
-
             }
         });
 
@@ -50,6 +73,9 @@ public class ActivityStartActivity extends AppCompatActivity implements OnMapRea
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+
+        activityTypeNameTextView = findViewById(R.id.lblCurrentActivity);
+        activityTypeNameTextView.setText(activityTypeName);
     }
 
     @Override

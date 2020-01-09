@@ -2,6 +2,7 @@ package com.example.runningapp.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,18 +18,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.runningapp.R;
-import com.example.runningapp.activity.AddEditGoalActivity;
+import com.example.runningapp.activity.ActivityGoalNewEdit;
+import com.example.runningapp.activity.ActivitySelectActivityTypeGoal;
 import com.example.runningapp.adapter.GoalAdapter;
 import com.example.runningapp.database.entity.Goal;
 import com.example.runningapp.viewmodel.GoalViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
+import static com.example.runningapp.activity.ActivityGoalNewEdit.EXTRA_ACTIVITY_TYPE_ID;
+import static com.example.runningapp.activity.ActivityGoalNewEdit.EXTRA_ID;
+import static com.example.runningapp.activity.ActivityGoalNewEdit.EXTRA_SPEED_GOAL;
+import static com.example.runningapp.activity.ActivityGoalNewEdit.EXTRA_TIME_GOAL;
 
 public class GoalFragment extends Fragment {
-    private static final int ADD_NOTE_REQUEST = 1;
+    public static final int ADD_NOTE_REQUEST = 1;
     private static final int EDIT_NOTE_REQUEST = 2;
 
     private GoalViewModel goalViewModel;
@@ -38,13 +41,13 @@ public class GoalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.goal_main, container, false);
+        View root = inflater.inflate(R.layout.fragment_goal_main, container, false);
 
         FloatingActionButton buttonAddGoal = root.findViewById(R.id.button_add_goal);
         buttonAddGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddEditGoalActivity.class);
+                Intent intent = new Intent(getActivity(), ActivitySelectActivityTypeGoal.class);
                 startActivityForResult(intent, ADD_NOTE_REQUEST);
             }
         });
@@ -86,11 +89,11 @@ public class GoalFragment extends Fragment {
         adapter.setOnItemClickListener(new GoalAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Goal goal) {
-                Intent intent = new Intent(getActivity(), AddEditGoalActivity.class);
-                intent.putExtra(AddEditGoalActivity.EXTRA_ID, goal.getId());
-                intent.putExtra(AddEditGoalActivity.EXTRA_ACTIVITY_TYPE_ID, String.valueOf(goal.getActivity_type_id()));
-                intent.putExtra(AddEditGoalActivity.EXTRA_TIME_GOAL, String.valueOf(goal.getTime_goal()));
-                intent.putExtra(AddEditGoalActivity.EXTRA_SPEED_GOAL, String.valueOf(goal.getSpeed_goal()));
+                Intent intent = new Intent(getActivity(), ActivityGoalNewEdit.class);
+                intent.putExtra(EXTRA_ID, goal.getId());
+                intent.putExtra(EXTRA_ACTIVITY_TYPE_ID, String.valueOf(goal.getActivity_type_id()));
+                intent.putExtra(EXTRA_TIME_GOAL, String.valueOf(goal.getTime_goal()));
+                intent.putExtra(EXTRA_SPEED_GOAL, String.valueOf(goal.getSpeed_goal()));
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });
@@ -99,48 +102,8 @@ public class GoalFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            String goalActivity = data.getStringExtra(AddEditGoalActivity.EXTRA_ACTIVITY_TYPE_ID);
-            String timeGoal = data.getStringExtra(AddEditGoalActivity.EXTRA_TIME_GOAL);
-            String speedGoal = data.getStringExtra(AddEditGoalActivity.EXTRA_SPEED_GOAL);
-
-            Goal goal = new Goal(goalActivity, timeGoal, speedGoal);
-            goalViewModel.insert(goal);
-
-        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(AddEditGoalActivity.EXTRA_ID, -1);
-
-            if (id == -1){
-                return;
-            }
-
-            String activityType = data.getStringExtra(AddEditGoalActivity.EXTRA_ACTIVITY_TYPE_ID);
-            String timeGoal = data.getStringExtra(AddEditGoalActivity.EXTRA_TIME_GOAL);
-            String speedGoal = data.getStringExtra(AddEditGoalActivity.EXTRA_SPEED_GOAL);
-
-            Goal goal = new Goal(activityType, timeGoal, speedGoal);
-            goal.setId(id);
-            goalViewModel.update(goal);
 
 
-        } else {
-        }
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.delete_all_goals) {
-            goalViewModel.deleteAllGoals(goal);
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
 
 

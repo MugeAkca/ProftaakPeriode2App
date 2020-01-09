@@ -13,15 +13,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.runningapp.R;
+import com.example.runningapp.database.entity.Activity;
+import com.example.runningapp.database.entity.Goal;
+import com.example.runningapp.fragment.GoalFragment;
+import com.example.runningapp.viewmodel.ActivityViewModel;
+import com.example.runningapp.viewmodel.GoalViewModel;
+
+import static com.example.runningapp.activity.ActivitySelectActivityTypeGoal.EXTRA_ACTIVITY_TYPE_ID2;
+import static com.example.runningapp.activity.ActivityTypeNewEdit.EXTRA_ACTIVITY_TYPE_NAME;
 
 
-public class AddEditGoalActivity extends AppCompatActivity {
+public class ActivityGoalNewEdit extends AppCompatActivity {
     public static final String EXTRA_ID =
             "EXTRA_ID";
     public static final String EXTRA_ACTIVITY_TYPE_ID =
             "EXTRA_ACTIVITY_TYPE_ID";
+    static final String EXTRA_ACTIVITY_TYPE_NAME2 = "EXTRA_ACTIVITY_TYPE_NAME";
     public static final String EXTRA_TIME_GOAL =
             "EXTRA_TIME_GOAL";
     public static final String EXTRA_SPEED_GOAL =
@@ -31,6 +42,7 @@ public class AddEditGoalActivity extends AppCompatActivity {
     private EditText editTextActivityType;
     private EditText editTextTimeGoal;
     private EditText editTextSpeedGoal;
+    GoalViewModel goalViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +65,7 @@ public class AddEditGoalActivity extends AppCompatActivity {
             editTextSpeedGoal.setText(intent.getStringExtra(EXTRA_SPEED_GOAL));
         }else {
             setTitle("Add Goal");
+            editTextActivityType.setText(intent.getStringExtra(EXTRA_ACTIVITY_TYPE_NAME2));
         }
     }
 
@@ -67,8 +80,11 @@ public class AddEditGoalActivity extends AppCompatActivity {
             return;
         }
 
+        Intent activityTypeIntent = getIntent();
+        String activityType = activityTypeIntent.getStringExtra(EXTRA_ACTIVITY_TYPE_ID2);
+
         Intent data = new Intent();
-        data.putExtra(EXTRA_ACTIVITY_TYPE_ID, activityTypeId);
+        data.putExtra(EXTRA_ACTIVITY_TYPE_ID, activityTypeIntent.getStringExtra(EXTRA_ACTIVITY_TYPE_ID2));
         data.putExtra(EXTRA_TIME_GOAL, timeGoal);
         data.putExtra(EXTRA_SPEED_GOAL, speedGoal);
 
@@ -77,17 +93,15 @@ public class AddEditGoalActivity extends AppCompatActivity {
             data.putExtra(EXTRA_ID,id);
         }
 
-        setResult(RESULT_OK, data);
-        finish();
+        goalViewModel = ViewModelProviders.of(this).get(GoalViewModel.class);
+
+        Goal goal = new Goal(activityType, timeGoal, speedGoal);
+        goalViewModel.insert(goal);
+
+        Intent intent = new Intent(ActivityGoalNewEdit.this, MainActivity.class);
+        startActivity(intent);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_add_goal, menu);
-        return true;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -98,6 +112,15 @@ public class AddEditGoalActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_add_goal, menu);
+        return true;
+    }
+
 }
 
 

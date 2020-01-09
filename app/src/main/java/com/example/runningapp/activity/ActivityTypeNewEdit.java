@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.runningapp.R;
 
 
-public class AddEditActivityTypeActivity extends AppCompatActivity {
+public class ActivityTypeNewEdit extends AppCompatActivity {
     public static final String EXTRA_ID =
             "EXTRA_ID";
     public static final String EXTRA_ACTIVITY_TYPE_NAME =
@@ -28,7 +28,7 @@ public class AddEditActivityTypeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_type_add_activity);
+        setContentView(R.layout.fragment_activity_type_new_edit);
 
         editTextActivityType = findViewById(R.id.edit_activity_type_name);
 

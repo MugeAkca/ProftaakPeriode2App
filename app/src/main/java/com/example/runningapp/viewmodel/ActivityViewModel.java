@@ -19,11 +19,13 @@ import java.util.List;
 public class ActivityViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
     private LiveData<List<Activity>> allActivities;
+    private LiveData<List<Activity>> allActivityActivityType;
 
     public ActivityViewModel(@NonNull Application application) {
         super(application);
         repository = new RunningAppRepository(application);
         allActivities = repository.getAllActivities();
+        allActivityActivityType = repository.getAllActivityActivityType();
     }
 
     public void insert(Activity activity) {
@@ -38,11 +40,9 @@ public class ActivityViewModel extends AndroidViewModel {
         repository.delete(activity);
     }
 
-    public void deleteAllActivitys(Activity activity) {
-        repository.deleteAll(activity);
-    }
-
     public LiveData<List<Activity>> getAllActivities() {
         return allActivities;
     }
+
+    public LiveData<List<Activity>> getActivityActivityType(){return allActivityActivityType;}
 }

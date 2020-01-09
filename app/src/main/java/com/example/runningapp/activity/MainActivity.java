@@ -2,8 +2,8 @@ package com.example.runningapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,19 +12,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
-
-import com.example.runningapp.database.entity.ActivityType;
 import com.example.runningapp.fragment.ActivityTypeFragment;
 import com.example.runningapp.fragment.MainFragment;
 import com.example.runningapp.R;
 import com.example.runningapp.fragment.GoalFragment;
 import com.example.runningapp.fragment.StatisticFragment;
+import com.example.runningapp.viewmodel.ActivityTypeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    Spinner spinner;
+    ActivityTypeViewModel activityTypeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,9 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = new MainFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.content_frame, fragment);
+        ft.replace(R.id.content_frame, fragment);
         ft.commit();
+
     }
 
     @Override

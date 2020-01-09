@@ -12,15 +12,17 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.runningapp.database.dao.ActivityDao;
 import com.example.runningapp.database.dao.ActivityTypeDao;
+import com.example.runningapp.database.dao.CategoryDao;
 import com.example.runningapp.database.dao.GoalDao;
 import com.example.runningapp.database.entity.Activity;
 import com.example.runningapp.database.entity.ActivityType;
+import com.example.runningapp.database.entity.Category;
 import com.example.runningapp.database.entity.Goal;
 import com.example.runningapp.database.entity.Location;
 
 // Implementing Room database using singleton design pattern to insure only one instance of the roomdatabase exists
 @TypeConverters({Converter.class})
-@Database(entities = {Activity.class, Goal.class, ActivityType.class, Location.class}, version = 28, exportSchema = false)
+@Database(entities = {Activity.class, Goal.class, ActivityType.class, Location.class, Category.class}, version = 35, exportSchema = false)
 public abstract class RunningAppDatabase extends RoomDatabase {
 
     //instance variable is created, so that it can turn "RunningAppDatabase" class into a singleton.
@@ -31,6 +33,7 @@ public abstract class RunningAppDatabase extends RoomDatabase {
     public abstract ActivityDao activityDao();
     public abstract GoalDao goalDao();
     public abstract ActivityTypeDao activityTypeDao();
+    public abstract CategoryDao categoryDao();
 
     //synchronized means only one thread at a time can access this method.
     static synchronized RunningAppDatabase getInstance(Context context){
@@ -60,10 +63,12 @@ public abstract class RunningAppDatabase extends RoomDatabase {
         private GoalDao goalDao;
         private ActivityDao activityDao;
         private ActivityTypeDao activityTypeDao;
+        private CategoryDao categoryDao;
         private PopulateDbAsyncTask(RunningAppDatabase db){
             activityDao = db.activityDao();
             goalDao = db.goalDao();
             activityTypeDao = db.activityTypeDao();
+            categoryDao = db.categoryDao();
         }
 
         @Override

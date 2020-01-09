@@ -7,7 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.runningapp.database.RunningAppRepository;
-import com.example.runningapp.database.entity.Goal;
+import com.example.runningapp.database.entity.Activity;
+import com.example.runningapp.database.entity.ActivityCategory;
 
 import java.util.List;
 
@@ -16,34 +17,16 @@ import java.util.List;
 // You can also use a ViewModel to share data between fragments.
 // Separating your app's UI data from your Activity and Fragment classes lets you better follow the single responsibility principle:
 // Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
-public class GoalViewModel extends AndroidViewModel {
-    private RunningAppRepository repository;
-    private LiveData<List<Goal>> allGoals;
-    private Goal goal;
+public class ActivityCategoryViewModel extends ActivityViewModel {
 
-    public GoalViewModel(@NonNull Application application) {
+    private LiveData<List<ActivityCategory>> allActivityCategories;
+
+    public ActivityCategoryViewModel(@NonNull Application application) {
         super(application);
-        repository = new RunningAppRepository(application);
-        allGoals = repository.getAllGoals();
+        RunningAppRepository repository = new RunningAppRepository(application);
+        allActivityCategories = repository.getAllActivityCategories();
     }
 
-    public void insert(Goal goal) {
-        repository.insert(goal);
-    }
 
-    public void update(Goal goal) {
-        repository.update(goal);
-    }
-
-    public void delete(Goal goal) {
-        repository.delete(goal);
-    }
-
-    public void deleteAllGoals(Goal goal) {
-        repository.delete(goal);
-    }
-
-    public LiveData<List<Goal>> getAllGoals() {
-        return allGoals;
-    }
+    public LiveData<List<ActivityCategory>> getAllActivityCategories(){return allActivityCategories;}
 }

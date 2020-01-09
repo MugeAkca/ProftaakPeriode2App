@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.runningapp.R;
 import com.example.runningapp.database.entity.Goal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // <> recyclerview knows which viewholders we want to use
 public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
 
@@ -47,7 +44,7 @@ public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
         // parerent = recyclerview -> context mainactivity
         // -> layout, context, false
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_edit_goal_item, parent, false);
+                .inflate(R.layout.fragment_goal_item, parent, false);
         return new GoalHolder(itemView);
     }
 
@@ -56,9 +53,7 @@ public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
     @Override
     public void onBindViewHolder(@NonNull GoalHolder holder, int position) {
         Goal currentGoal = getItem(position);
-        holder.textViewActivityType.setText(String.valueOf(currentGoal.getActivity_type_id()));
         holder.textViewTimeGoal.setText(String.valueOf(currentGoal.getTime_goal()));
-        holder.textViewSpeedGoal.setText(String.valueOf(currentGoal.getSpeed_goal()));
     }
 
     public Goal getGoalAt(int position) {
@@ -75,16 +70,12 @@ public class GoalAdapter extends ListAdapter<Goal, GoalAdapter.GoalHolder> {
 
     // Hold views in single recyclerview items
     class GoalHolder extends RecyclerView.ViewHolder {
-        private TextView textViewActivityType;
         private TextView textViewTimeGoal;
-        private TextView textViewSpeedGoal;
 
         // assign textviews
         GoalHolder(@NonNull View itemView) {
             super(itemView);
-            textViewActivityType = itemView.findViewById(R.id.text_view_activity_type);
             textViewTimeGoal = itemView.findViewById(R.id.text_view_time_goal);
-            textViewSpeedGoal = itemView.findViewById(R.id.text_view_speed_goal);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

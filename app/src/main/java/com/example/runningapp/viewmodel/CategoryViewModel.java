@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.runningapp.database.RunningAppRepository;
-import com.example.runningapp.database.entity.ActivityType;
+import com.example.runningapp.database.entity.Category;
 
 import java.util.List;
 
@@ -20,33 +20,33 @@ import java.util.List;
 // data doesnt get lost config changes viewmodel only removed memory as lifecycle activity is over (activity finhised or detached)
 // never store or reference activity because the viewmodel is designed to outlive activity after it is destroyed (memory leaks)
 // We exctend viewmodel we can pass data down to the database
-public class ActivityTypeViewModel extends AndroidViewModel {
+public class CategoryViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
-    private LiveData<List<ActivityType>> allActivityTypes;
+    private LiveData<List<Category>> allCategorys;
 
-    public ActivityTypeViewModel(@NonNull Application application) {
+    public CategoryViewModel(@NonNull Application application) {
         super(application);
         repository = new RunningAppRepository(application);
-        allActivityTypes = repository.getAllActivityTypes();
+        allCategorys = repository.getAllCategories();
     }
 
-    public void insert(ActivityType activityType) {
-        repository.insert(activityType);
+    public void insert(Category category) {
+        repository.insert(category);
     }
 
-    public void update(ActivityType activityType) {
-        repository.update(activityType);
+    public void update(Category category) {
+        repository.update(category);
     }
 
-    public void delete(ActivityType activityType) {
-        repository.delete(activityType);
+    public void delete(Category category) {
+        repository.delete(category);
     }
 
-    public void deleteAllActivityTypes(ActivityType activityType) {
-        repository.deleteAll(activityType);
+    public void deleteAllCategorys(Category category) {
+        repository.deleteAll(category);
     }
 
-    public LiveData<List<ActivityType>> getAllActivityTypes() {
-        return allActivityTypes;
+    public LiveData<List<Category>> getAllCategorys() {
+        return allCategorys;
     }
 }

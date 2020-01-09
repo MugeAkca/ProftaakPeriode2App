@@ -8,10 +8,13 @@ import androidx.lifecycle.LiveData;
 
 import com.example.runningapp.database.dao.ActivityDao;
 import com.example.runningapp.database.dao.ActivityTypeDao;
+import com.example.runningapp.database.dao.CategoryDao;
 import com.example.runningapp.database.dao.GoalDao;
 import com.example.runningapp.database.entity.Activity;
+import com.example.runningapp.database.entity.ActivityCategory;
 import com.example.runningapp.database.entity.ActivityType;
 import com.example.runningapp.database.entity.Base;
+import com.example.runningapp.database.entity.Category;
 import com.example.runningapp.database.entity.Goal;
 
 import java.util.List;
@@ -25,9 +28,14 @@ public class RunningAppRepository {
     private ActivityDao activityDao;
     private ActivityTypeDao activityTypeDao;
     private GoalDao goalDao;
+    private CategoryDao categoryDao;
     private LiveData<List<Activity>> allActivities;
     private LiveData<List<ActivityType>> allActivityTypes;
     private LiveData<List<Goal>> allGoals;
+    private LiveData<List<Activity>> allActivityActivityType;
+    private LiveData<List<ActivityCategory>> allActivityCategories;
+    private LiveData<List<Category>> allCategories;
+
 
 
     // Activity
@@ -42,6 +50,9 @@ public class RunningAppRepository {
         allActivityTypes = activityTypeDao.getAllActivityTypes();
         goalDao = database.goalDao();
         allGoals = goalDao.getAllGoals();
+        allActivityCategories = activityDao.getActivityActivityType();
+        categoryDao = database.categoryDao();
+        allCategories = categoryDao.getAllCategories();
     }
 
     public void insert(Base base) {
@@ -50,7 +61,9 @@ public class RunningAppRepository {
         }else if(base instanceof Activity){
             new InsertActivityAsyncTask(activityDao).execute((Activity) base);
         }else if(base instanceof ActivityType){
-            new InsertActivityTypeAsyncTask(activityTypeDao).execute((ActivityType) base);
+            //new InsertActivityTypeAsyncTask(activityTypeDao).execute((ActivityType) base);
+        }else if(base instanceof Category){
+            new InsertActivityTypeAsyncTask(categoryDao).execute((Category) base);
         }
     }
 
@@ -98,6 +111,12 @@ public class RunningAppRepository {
     public LiveData<List<Goal>> getAllGoals() {
         return allGoals;
     }
+
+    public LiveData<List<Activity>> getAllActivityActivityType(){return allActivityActivityType;}
+
+    public LiveData<List<ActivityCategory>> getAllActivityCategories(){return allActivityCategories;}
+
+    public LiveData<List<Category>> getAllCategories(){return allCategories;}
 
 
     private static class InsertActivityAsyncTask extends AsyncTask<Activity, Void, Void> {
@@ -167,17 +186,17 @@ public class RunningAppRepository {
     }
 
 
-    private static class InsertActivityTypeAsyncTask extends AsyncTask<ActivityType, Void, Void> {
+    private static class InsertActivityTypeAsyncTask extends AsyncTask<Category, Void, Void> {
 
-        private ActivityTypeDao activityTypeDao;
+        private CategoryDao categoryDao;
 
-        private InsertActivityTypeAsyncTask(ActivityTypeDao activityTypeDao) {
-            this.activityTypeDao = activityTypeDao;
+        private InsertActivityTypeAsyncTask(CategoryDao categoryDao) {
+            this.categoryDao = categoryDao;
         }
 
         @Override
-        protected Void doInBackground(ActivityType... activityTypes) {
-            activityTypeDao.insert(activityTypes[0]);
+        protected Void doInBackground(Category... categories) {
+            categoryDao.insert(categories[0]);
             return null;
         }
     }
