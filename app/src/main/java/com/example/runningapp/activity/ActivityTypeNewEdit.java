@@ -3,6 +3,7 @@ package com.example.runningapp.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.print.PrinterId;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,30 +17,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.runningapp.R;
 
 
-public class AddEditActivityTypeActivity extends AppCompatActivity {
-    public static final String EXTRA_ID =
-            "EXTRA_ID";
-    public static final String EXTRA_ACTIVITY_TYPE_NAME =
-            "EXTRA_ACTIVITY_TYPE_NAME";
-
+public class ActivityTypeNewEdit extends AppCompatActivity {
+    public static final String ACTIVITY_TYPE_NEW_EDIT_ID = "ACTIVITY_TYPE_NEW_EDIT_ID";
+    public static final String ACTIVITY_TYPE_NEW_EDIT_NAME = "ACTIVITY_TYPE_NEW_EDIT_NAME";
 
     private EditText editTextActivityType;
+    private Intent intent;
+    private Intent data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_type_add_activity);
+        setContentView(R.layout.fragment_activity_type_new_edit);
 
         editTextActivityType = findViewById(R.id.edit_activity_type_name);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
-        Intent intent = getIntent();
+        intent = getIntent();
 
-        if (intent.hasExtra(EXTRA_ID)){
+        if (intent.hasExtra(ACTIVITY_TYPE_NEW_EDIT_ID)) {
             setTitle("Edit ActivityType");
-            editTextActivityType.setText(intent.getStringExtra(EXTRA_ACTIVITY_TYPE_NAME));
-        }else {
+            editTextActivityType.setText(intent.getStringExtra(ACTIVITY_TYPE_NEW_EDIT_NAME));
+        } else {
             setTitle("Add ActivityType");
         }
     }
@@ -53,12 +53,12 @@ public class AddEditActivityTypeActivity extends AppCompatActivity {
             return;
         }
 
-        Intent data = new Intent();
-        data.putExtra(EXTRA_ACTIVITY_TYPE_NAME, activityTypeName);
+        data = new Intent();
+        data.putExtra(ACTIVITY_TYPE_NEW_EDIT_NAME, activityTypeName);
 
-        int id = getIntent().getIntExtra(EXTRA_ID,-1);
-        if (id != -1){
-            data.putExtra(EXTRA_ID,id);
+        int id = getIntent().getIntExtra(ACTIVITY_TYPE_NEW_EDIT_ID, -1);
+        if (id != -1) {
+            data.putExtra(ACTIVITY_TYPE_NEW_EDIT_ID, id);
         }
 
         setResult(RESULT_OK, data);

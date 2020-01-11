@@ -2,8 +2,8 @@ package com.example.runningapp.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.print.PrinterId;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.runningapp.R;
-import com.example.runningapp.activity.AddEditActivityTypeActivity;
+import com.example.runningapp.activity.ActivityTypeNewEdit;
 import com.example.runningapp.adapter.ActivityTypeAdapter;
 import com.example.runningapp.database.entity.ActivityType;
 import com.example.runningapp.viewmodel.ActivityTypeViewModel;
@@ -27,36 +27,42 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.runningapp.activity.ActivityTypeNewEdit.ACTIVITY_TYPE_NEW_EDIT_NAME;
+import static com.example.runningapp.activity.ActivityTypeNewEdit.ACTIVITY_TYPE_NEW_EDIT_ID;
 
 public class ActivityTypeFragment extends Fragment {
 
-    private static final int ADD_NOTE_REQUEST = 1;
-    private static final int EDIT_NOTE_REQUEST = 2;
+    private static final int ADD_ACTIVITY_TYPE_REQUEST = 1;
+    private static final int EDIT_ACTIVITY_TYPE_REQUEST = 2;
 
     private ActivityTypeViewModel activityTypeViewModel;
+    private String activityTypeName;
+    private View root;
+    private FloatingActionButton buttonAddActivityType;
+    private RecyclerView recyclerView;
     private ActivityType activityType;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.activity_type_main, container, false);
+        root = inflater.inflate(R.layout.fragment_activity_type_main, container, false);
 
 
-        FloatingActionButton buttonAddActivityType = root.findViewById(R.id.button_add_activity_type);
+        buttonAddActivityType = root.findViewById(R.id.button_add_activity_type);
         buttonAddActivityType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddEditActivityTypeActivity.class);
-                startActivityForResult(intent, ADD_NOTE_REQUEST);
+                Intent intent = new Intent(getContext(), ActivityTypeNewEdit.class);
+                startActivityForResult(intent, ADD_ACTIVITY_TYPE_REQUEST);
             }
         });
 
-        RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
-        final ActivityTypeAdapter adapter = new  ActivityTypeAdapter();
+        final ActivityTypeAdapter adapter = new ActivityTypeAdapter();
         recyclerView.setAdapter(adapter);
 
         activityTypeViewModel = ViewModelProviders.of(this).get(ActivityTypeViewModel.class);
@@ -81,13 +87,13 @@ public class ActivityTypeFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-        adapter.setOnItemClickListener(new  ActivityTypeAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new ActivityTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(ActivityType activityType) {
-                Intent intent = new Intent(getContext(), AddEditActivityTypeActivity.class);
-                intent.putExtra(AddEditActivityTypeActivity.EXTRA_ID, activityType.getType_id());
-                intent.putExtra(AddEditActivityTypeActivity.EXTRA_ACTIVITY_TYPE_NAME, activityType.getName());
-                startActivityForResult(intent, EDIT_NOTE_REQUEST);
+                Intent intent = new Intent(getContext(), ActivityTypeNewEdit.class);
+                intent.putExtra(ACTIVITY_TYPE_NEW_EDIT_ID, activityType.getType_id());
+                intent.putExtra(ACTIVITY_TYPE_NEW_EDIT_NAME, activityType.getName());
+                startActivityForResult(intent, EDIT_ACTIVITY_TYPE_REQUEST);
             }
         });
 
@@ -99,38 +105,26 @@ public class ActivityTypeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            String activityTypeName = data.getStringExtra(AddEditActivityTypeActivity.EXTRA_ACTIVITY_TYPE_NAME);
+        if (requestCode == ADD_ACTIVITY_TYPE_REQUEST && resultCode == RESULT_OK) {
+            activityTypeName = data.getStringExtra(ACTIVITY_TYPE_NEW_EDIT_NAME);
 
-            ActivityType activityType = new ActivityType(activityTypeName);
+            activityType = new ActivityType(activityTypeName);
             activityTypeViewModel.insert(activityType);
 
-        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(AddEditActivityTypeActivity.EXTRA_ID, -1);
+        } else if (requestCode == EDIT_ACTIVITY_TYPE_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(ACTIVITY_TYPE_NEW_EDIT_ID, -1);
 
-            if (id == -1){
+            if (id == -1) {
                 return;
             }
 
-            String activityTypeName = data.getStringExtra(AddEditActivityTypeActivity.EXTRA_ACTIVITY_TYPE_NAME);
+            activityTypeName = data.getStringExtra(ACTIVITY_TYPE_NEW_EDIT_NAME);
 
             ActivityType activityType = new ActivityType(activityTypeName);
             activityType.setType_id(id);
             activityTypeViewModel.update(activityType);
 
-
-        } else {
         }
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.delete_all_activity_types) {
-            activityTypeViewModel.deleteAllActivityTypes(activityType);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
-

@@ -51,6 +51,4 @@ public class Goal implements Base {
     public int getSpeed_goal() {
         return speed_goal;
     }
-
-
 }

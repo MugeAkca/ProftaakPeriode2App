@@ -10,35 +10,55 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.runningapp.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.example.runningapp.activity.ActivityEndActivity.ACTIVITY_END_TIME;
+import static com.example.runningapp.activity.ActivityEndActivity.ACTIVITY_START_TIME;
+
 
 public class ActivityStartActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap gmap;
-    
-
+    private TextView activityTypeNameTextView;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
-   // private GeoDataClient mGeoDataClient;
+    // private GeoDataClient mGeoDataClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        //String activityTypeId = intent.getStringExtra("GOAL_NEW_EDIT_ID");
+        String activityTypeName = intent.getStringExtra("ACTIVITY_NEW_EDIT_TYPE_NAME");
+
+        final String startTime = intent.getStringExtra("ACTIVITY_START_TIME");
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD-MM-yyyy HH:mm");
+        Date date = new Date();
+        final String ts = simpleDateFormat.format(date);
+
         setContentView(R.layout.activity_activity_started);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button btnEndActivity = findViewById(R.id.btnEndActivity);
+        Button btnEndActivity = findViewById(R.id.btnEndActivityNow);
         btnEndActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivityEndActivity.class);
+                intent.putExtra(ACTIVITY_START_TIME, startTime);
+                intent.putExtra(ACTIVITY_END_TIME, ts);
                 v.getContext().startActivity(intent);
-
             }
         });
 
@@ -50,6 +70,9 @@ public class ActivityStartActivity extends AppCompatActivity implements OnMapRea
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+
+        activityTypeNameTextView = findViewById(R.id.lblCurrentActivity);
+        activityTypeNameTextView.setText(activityTypeName);
     }
 
     @Override
@@ -64,6 +87,7 @@ public class ActivityStartActivity extends AppCompatActivity implements OnMapRea
 
         mapView.onSaveInstanceState(mapViewBundle);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -81,16 +105,19 @@ public class ActivityStartActivity extends AppCompatActivity implements OnMapRea
         super.onStop();
         mapView.onStop();
     }
+
     @Override
     protected void onPause() {
         mapView.onPause();
         super.onPause();
     }
+
     @Override
     protected void onDestroy() {
         mapView.onDestroy();
         super.onDestroy();
     }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -108,9 +135,9 @@ public class ActivityStartActivity extends AppCompatActivity implements OnMapRea
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         } else {
-            ActivityCompat.requestPermissions(this, new String[] {
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION }, 123);
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
         }
 
     }

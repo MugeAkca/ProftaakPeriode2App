@@ -1,44 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".activity.AddEditStatisticActivity">
+    tools:context=".activity.ActivityActivityNewEdit">
 
-    <Spinner
-        android:id="@+id/spnActivities"
-        android:layout_width="250dp"
+
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:entries="@array/spinnerActivities"
-        android:spinnerMode="dialog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSpinner" />
+        android:text="@string/activity_type"
+        android:textSize="24sp"
+        android:textFontWeight="700"/>
 
-    <EditText
+    <TextView
         android:id="@+id/edit_activity_type"
-        android:inputType="text"
-        android:hint="@string/activity_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textFontWeight="700"/>
 
-    <EditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_date"
+        android:textSize="24sp"
+        android:textFontWeight="800"/>
+
+    <TextView
         android:id="@+id/edit_start_date"
         android:inputType="date"
-        android:hint="@string/start_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textFontWeight="700" />
 
-    <EditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_date"
+        android:textSize="24sp"
+        android:textFontWeight="800"/>
+
+    <TextView
         android:id="@+id/edit_end_date"
         android:inputType="date"
-        android:hint="@string/end_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/lorem"
+        android:textSize="18sp"
+        android:textFontWeight="700"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_location"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/fragment_location_item" />
+
 
 </LinearLayout>

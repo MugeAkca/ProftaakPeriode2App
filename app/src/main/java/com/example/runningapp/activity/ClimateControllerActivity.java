@@ -1,5 +1,4 @@
 package com.example.runningapp.activity;
-import com.example.runningapp.R;
 
 import android.Manifest;
 import android.content.Context;
@@ -19,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-
+import com.example.runningapp.R;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -28,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-
 
 public class ClimateControllerActivity extends AppCompatActivity {
 
@@ -67,12 +65,10 @@ public class ClimateControllerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
 
         //Linking the elements in the layout to Java
-       weatherImage = findViewById(R.id.imageWeather);
-       temperatureLabel = findViewById(R.id.textTemp);
-       cityLabel = findViewById(R.id.textLocation);
-       adviceForActivity = findViewById(R.id.textAdvice);
-
-
+        weatherImage = findViewById(R.id.imageWeather);
+        temperatureLabel = findViewById(R.id.textTemp);
+        cityLabel = findViewById(R.id.textLocation);
+        adviceForActivity = findViewById(R.id.textAdvice);
 
         setupLocationServices();
         getWeatherForCurrentLocation();
@@ -118,7 +114,7 @@ public class ClimateControllerActivity extends AppCompatActivity {
 
                 Log.d("MyClima", "locationListener: OnLocationChanged()");
                 Log.d("MyClima", locationText);
-             //   cityLabel.setText(locationText);
+//                cityLabel.setText(locationText);
 
                 RequestParams params = new RequestParams();
                 params.add("lon", longitude);
@@ -164,16 +160,22 @@ public class ClimateControllerActivity extends AppCompatActivity {
 
     }
 
+    // TODO: Add getWeatherForCurrentLocation() here:
     private void getWeatherForCurrentLocation() {
-        // TODO 002: Ask permission from user
-        if (ContextCompat.checkSelfPermission(this, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        } else {
-            // TODO 006: Register for location updates
-            locationManager.requestLocationUpdates(LOCATION_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
-        }
-    }
+        if (  ContextCompat.checkSelfPermission(this, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED ) {
 
+            if (ContextCompat.checkSelfPermission(this, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            }else {
+                // TODO 006: Register for location updates
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+                locationManager.requestLocationUpdates(LOCATION_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+            }
+            return;
+        }
+
+        locationManager.requestLocationUpdates(LOCATION_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -219,6 +221,9 @@ public class ClimateControllerActivity extends AppCompatActivity {
                 } catch (NullPointerException e){
                     Log.e("Je hebt een probleem", "Je hebt een probleem" + e);
 
+                   // super.onFailure(statusCode, headers, throwable, errorResponse);
+                    Toast.makeText(ClimateControllerActivity.this, "call to open weather api failed", Toast.LENGTH_SHORT);
+
                 }
 
             }
@@ -226,6 +231,7 @@ public class ClimateControllerActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(ClimateControllerActivity.this, "call to open weather api failed", Toast.LENGTH_SHORT);
             }
 
             @Override

@@ -23,9 +23,14 @@
 
         <activity android:name=".activity.ActivityEndActivity" />
         <activity android:name=".activity.ActivityStartActivity" />
-        <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditGoalActivity"/>
-        <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditStatisticActivity"/>
-        <activity android:theme="@style/AppTheme2" android:name=".activity.AddEditActivityTypeActivity"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivityGoalNewEdit"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivityActivityNewEdit"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivitySelectActivityType"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivitySelectActivityTypeGoal"/>
+        <activity android:theme="@style/AppTheme2" android:name=".activity.ActivitySelectActivityTypeActivity"/>
+        <activity android:name=".activity.ActivityTypeNewEdit" android:theme="@style/AppTheme2"/>
+        <activity android:name=".activity.ActivityLocationNewEdit" android:theme="@style/AppTheme2"/>
+        <activity android:name=".activity.ClimateControllerActivity"/>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
