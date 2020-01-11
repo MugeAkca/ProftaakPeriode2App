@@ -31,4 +31,10 @@ public interface ActivityTypeDao {
     @Query("SELECT * FROM activity_type_table")
     LiveData<List<ActivityType>> getAllActivityTypes();
 
+    @Query("SELECT * FROM activity_type_table WHERE type_id = :typeId")
+    LiveData<List<ActivityType>> getActivityType(int typeId);
+
+    @Query("SELECT * FROM activity_type_table")
+    List<ActivityType> getAllActivityTypesSpinner();
+
 }

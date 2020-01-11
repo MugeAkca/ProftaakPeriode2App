@@ -17,17 +17,23 @@ import java.util.List;
 @Dao
 public interface LocationDao {
     @Insert
-    void insert(com.example.runningapp.database.entity.Location location);
+    void insert(Location location);
 
     @Update
-    void update(com.example.runningapp.database.entity.Location location);
+    void update(Location location);
 
     @Delete
-    void delete(com.example.runningapp.database.entity.Location location);
+    void delete(Location location);
 
+    /*
     @Query("DELETE FROM location_table")
-    void deleteAll(com.example.runningapp.database.entity.Location location);
+    void deleteAll(Location location);
+      */
+
+    @Query("SELECT * FROM location_table WHERE activity_id = :activity_id")
+    LiveData<List<Location>> getLocation(long activity_id);
+
 
     @Query("SELECT * FROM location_table")
-    LiveData<List<com.example.runningapp.database.entity.Location>> getAllLocation();
+    LiveData<List<Location>> getAllLocations();
 }

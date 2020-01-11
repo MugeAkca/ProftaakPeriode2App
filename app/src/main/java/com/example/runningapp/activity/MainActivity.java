@@ -2,6 +2,7 @@ package com.example.runningapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Spinner;
 
@@ -12,7 +13,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.runningapp.database.RunningAppDatabase;
 import com.example.runningapp.fragment.ActivityTypeFragment;
+import com.example.runningapp.fragment.LocationFragment;
 import com.example.runningapp.fragment.MainFragment;
 import com.example.runningapp.R;
 import com.example.runningapp.fragment.GoalFragment;
@@ -20,13 +24,13 @@ import com.example.runningapp.fragment.StatisticFragment;
 import com.example.runningapp.viewmodel.ActivityTypeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
+import android.view.View;
+import android.widget.Button;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    Spinner spinner;
-    ActivityTypeViewModel activityTypeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 drawer,
@@ -49,10 +53,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         Fragment fragment = new MainFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
+
 
     }
 
@@ -62,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         Intent intent = null;
 
-        switch(id) {
+        switch (id) {
             case R.id.nav_home:
                 fragment = new MainFragment();
                 break;
@@ -75,6 +81,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_activity_type:
                 fragment = new ActivityTypeFragment();
                 break;
+            case R.id.nav_location:
+                fragment = new LocationFragment();
+                break;
         }
 
         if (fragment != null) {
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

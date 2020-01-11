@@ -24,11 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {
     def lifecycle_version = "2.0.0"
-    def room_version = "2.1.0"
+    def room_version = "2.2.0"
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
@@ -45,6 +48,8 @@ dependencies {
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+    //
+    implementation 'com.loopj.android:android-async-http:1.4.9'
 
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 // Room uses annotations to to identify how each part of this class relates to an entity in the db, room uses this info to generate code
 
 @Entity(tableName = "activity_type_table")
-public class ActivityType  implements Base {
+public class ActivityType implements Base {
     @PrimaryKey(autoGenerate = true)
     private int type_id;
     private String name;

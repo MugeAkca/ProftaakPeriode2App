@@ -29,6 +29,8 @@
         <activity android:theme="@style/AppTheme2" android:name=".activity.ActivitySelectActivityTypeGoal"/>
         <activity android:theme="@style/AppTheme2" android:name=".activity.ActivitySelectActivityTypeActivity"/>
         <activity android:name=".activity.ActivityTypeNewEdit" android:theme="@style/AppTheme2"/>
+        <activity android:name=".activity.ActivityLocationNewEdit" android:theme="@style/AppTheme2"/>
+        <activity android:name=".activity.ClimateControllerActivity"/>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -16,25 +16,26 @@ import com.example.runningapp.viewmodel.ActivityTypeViewModel;
 
 import java.util.List;
 
-import static com.example.runningapp.activity.ActivityGoalNewEdit.EXTRA_ACTIVITY_TYPE_NAME2;
-import static com.example.runningapp.fragment.GoalFragment.ADD_NOTE_REQUEST;
+import static com.example.runningapp.activity.ActivityGoalNewEdit.GOAL_NEW_EDIT_ACTIVITY_TYPE_NAME;
+import static com.example.runningapp.fragment.GoalFragment.ADD_GOAL_REQUEST;
 
 public class ActivitySelectActivityTypeActivity extends AppCompatActivity {
 
+    public static final String SELECT_ACTIVITY_TYPE_ID = "SELECT_ACTIVITY_TYPE_ID";
+
     private ActivityTypeViewModel activityTypeViewModel;
-    public static final String EXTRA_ACTIVITY_TYPE_ID2 =
-            "EXTRA_ACTIVITY_TYPE_ID";
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_type_main);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final ActivityTypeAdapter adapter = new  ActivityTypeAdapter();
+        final ActivityTypeAdapter adapter = new ActivityTypeAdapter();
         recyclerView.setAdapter(adapter);
 
         activityTypeViewModel = ViewModelProviders.of(this).get(ActivityTypeViewModel.class);
@@ -45,14 +46,13 @@ public class ActivitySelectActivityTypeActivity extends AppCompatActivity {
             }
         });
 
-
-        adapter.setOnItemClickListener(new  ActivityTypeAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new ActivityTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(ActivityType activityType) {
                 Intent intent = new Intent(ActivitySelectActivityTypeActivity.this, ActivityActivityNewEdit.class);
-                intent.putExtra(EXTRA_ACTIVITY_TYPE_ID2, String.valueOf(activityType.getType_id()));
-                intent.putExtra(EXTRA_ACTIVITY_TYPE_NAME2, activityType.getName());
-                startActivityForResult(intent, ADD_NOTE_REQUEST);
+                intent.putExtra(SELECT_ACTIVITY_TYPE_ID, String.valueOf(activityType.getType_id()));
+                intent.putExtra(GOAL_NEW_EDIT_ACTIVITY_TYPE_NAME, activityType.getName());
+                startActivityForResult(intent, ADD_GOAL_REQUEST);
 
             }
         });

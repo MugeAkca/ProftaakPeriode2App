@@ -8,24 +8,23 @@ import androidx.lifecycle.LiveData;
 
 import com.example.runningapp.database.RunningAppRepository;
 import com.example.runningapp.database.entity.Activity;
+import com.example.runningapp.database.entity.ActivityActivitySubType;
 
 import java.util.List;
 
 // The ViewModel provides data to the UI and survives configuration changes.
 // A ViewModel acts as a communication center between the Repository and the UI.
 // You can also use a ViewModel to share data between fragments.
-// Separating your app's UI data from your Activity and Fragment classes lets you better follow the single responsibility principle:
-// Your activities are responsible for drawing data to the screen, while your ViewModel can take care of holding and processing all the data needed for the UI.
+// Separating the app's UI data from the Activity and Fragment classes lets you better follow the single responsibility principle:
+// Your activities are responsible for drawing data to the screen, while the ViewModel can take care of holding and processing all the data needed for the UI.
 public class ActivityViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
-    private LiveData<List<Activity>> allActivities;
-    private LiveData<List<Activity>> allActivityActivityType;
+    private LiveData<List<ActivityActivitySubType>> allActivities;
 
     public ActivityViewModel(@NonNull Application application) {
         super(application);
         repository = new RunningAppRepository(application);
         allActivities = repository.getAllActivities();
-        allActivityActivityType = repository.getAllActivityActivityType();
     }
 
     public void insert(Activity activity) {
@@ -40,9 +39,8 @@ public class ActivityViewModel extends AndroidViewModel {
         repository.delete(activity);
     }
 
-    public LiveData<List<Activity>> getAllActivities() {
+    public LiveData<List<ActivityActivitySubType>> getAllActivities() {
         return allActivities;
     }
 
-    public LiveData<List<Activity>> getActivityActivityType(){return allActivityActivityType;}
 }
