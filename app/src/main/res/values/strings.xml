@@ -23,7 +23,7 @@
     <string name="title">Title</string>
     <string name="activity_type">Activity type:</string>
     <string name="time_goal">Time goal</string>
-    <string name="speed_goal">Speed goal</string>
+    <string name="speed_goal">Speed goal (km/u)</string>
     <string name="start_date">Start date:</string>
     <string name="end_date">End date:</string>
     <string name="choose_an_activity">Choose an activity</string>
@@ -33,4 +33,5 @@
     <string name="weather_description">This is the weather symbol</string>
     <string name="default_location">Fetching Location</string>
     <string name="advice_for_activity">Advice</string>
+    <string name="test">test</string> 
 </resources>

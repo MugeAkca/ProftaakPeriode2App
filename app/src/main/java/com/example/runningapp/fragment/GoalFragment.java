@@ -114,37 +114,37 @@ public class GoalFragment extends Fragment {
         return root;
 
     }
-//
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == ADD_GOAL_REQUEST && resultCode == RESULT_OK) {
-//            activityTypeId = data.getStringExtra(GOAL_NEW_EDIT_ACTIVITY_TYPE_ID);
-//            timeGoal = data.getStringExtra(GOAL_NEW_EDIT_TIME_GOAL);
-//            speedGoal = data.getStringExtra(GOAL_NEW_EDIT_SPEED_GOAL);
-//
-//            goal = new Goal(activityTypeId, timeGoal, speedGoal);
-//            goalViewModel.insert(goal);
-//
-//        } else if (requestCode == EDIT_GOAL_REQUEST && resultCode == RESULT_OK) {
-//            int id = data.getIntExtra(GOAL_NEW_EDIT_ID, -1);
-//
-//            if (id == -1) {
-//                return;
-//            }
-//
-//            activityTypeId = data.getStringExtra(GOAL_NEW_EDIT_ACTIVITY_TYPE_ID);
-//            timeGoal = data.getStringExtra(GOAL_NEW_EDIT_TIME_GOAL);
-//            speedGoal = data.getStringExtra(GOAL_NEW_EDIT_SPEED_GOAL);
-//
-//            goal = new Goal(activityTypeId, timeGoal, speedGoal);
-//            goal.setId(id);
-//            goalViewModel.update(goal);
-//
-//        }
-//    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_GOAL_REQUEST && resultCode == RESULT_OK) {
+            activityTypeId = data.getStringExtra(GOAL_NEW_EDIT_ACTIVITY_TYPE_ID);
+            timeGoal = data.getStringExtra(GOAL_NEW_EDIT_TIME_GOAL);
+            speedGoal = data.getStringExtra(GOAL_NEW_EDIT_SPEED_GOAL);
+
+            goal = new Goal(activityTypeId, timeGoal, speedGoal);
+            goalViewModel.insert(goal);
+
+        } else if (requestCode == EDIT_GOAL_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(GOAL_NEW_EDIT_ID, -1);
+
+            if (id == -1) {
+                return;
+            }
+
+            activityTypeId = data.getStringExtra(GOAL_NEW_EDIT_ACTIVITY_TYPE_ID);
+            timeGoal = data.getStringExtra(GOAL_NEW_EDIT_TIME_GOAL);
+            speedGoal = data.getStringExtra(GOAL_NEW_EDIT_SPEED_GOAL);
+
+            goal = new Goal(activityTypeId, timeGoal, speedGoal);
+            goal.setId(id);
+            goalViewModel.update(goal);
+
+        }
+    }
 
 
 }

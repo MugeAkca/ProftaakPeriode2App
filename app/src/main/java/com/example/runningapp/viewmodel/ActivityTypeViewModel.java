@@ -23,11 +23,13 @@ import java.util.List;
 public class ActivityTypeViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
     private LiveData<List<ActivityType>> allActivityTypes;
+    private List<ActivityType> allActivityType;
 
     public ActivityTypeViewModel(@NonNull Application application) {
         super(application);
         repository = new RunningAppRepository(application);
         allActivityTypes = repository.getAllActivityTypes();
+//        allActivityType = repository.getAllActivityTypesSpinner();
     }
 
     public void insert(ActivityType activityType) {
@@ -45,5 +47,9 @@ public class ActivityTypeViewModel extends AndroidViewModel {
     public LiveData<List<ActivityType>> getAllActivityTypes() {
         return allActivityTypes;
     }
+
+//    public List<ActivityType> getAllActivityTypesSpinner(){
+//        return allActivityType;
+//    }
 
 }

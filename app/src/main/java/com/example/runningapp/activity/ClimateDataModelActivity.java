@@ -3,7 +3,7 @@ package com.example.runningapp.activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ClimateDataModelActivity {
+class ClimateDataModelActivity {
 
     // TODO: Declare the member variables here
     private double temperature;
@@ -13,20 +13,16 @@ public class ClimateDataModelActivity {
     private String adviceText;
 
     // TODO: Create a WeatherDataModel from a JSON:
-    public static ClimateDataModelActivity fromJson(JSONObject jsonObject) {
+    static ClimateDataModelActivity fromJson(JSONObject jsonObject) {
         ClimateDataModelActivity weatherDataModel = new ClimateDataModelActivity();
 
         try {
             weatherDataModel.cityName = jsonObject.getString("name");
             JSONObject mainData = jsonObject.getJSONObject("main");
-
             weatherDataModel.temperature = mainData.getDouble("temp");
-
             weatherDataModel.condition = jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
             weatherDataModel.iconName = updateWeatherIcon(weatherDataModel.condition);
             weatherDataModel.adviceText = getAdviceForActivity(weatherDataModel.condition);
-
-
         }
         catch (JSONException e){
             e.printStackTrace();
@@ -102,19 +98,19 @@ public class ClimateDataModelActivity {
 
 
 
-    public double getTemperature() {
+    double getTemperature() {
         return temperature;
     }
 
-    public String getCityName() {
+    String getCityName() {
         return cityName;
     }
 
-    public String getIconName() {
+    String getIconName() {
         return iconName;
     }
 
-    public String getAdviceText(){
+    String getAdviceText(){
         return adviceText;
     }
 }

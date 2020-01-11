@@ -12,6 +12,7 @@ public class ActivityType implements Base {
     private int type_id;
     private String name;
 
+
     public ActivityType(String name) {
         this.name = name;
     }
@@ -26,5 +27,9 @@ public class ActivityType implements Base {
 
     public int getType_id() {
         return type_id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

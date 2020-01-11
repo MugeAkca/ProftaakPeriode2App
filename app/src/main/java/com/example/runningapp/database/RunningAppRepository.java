@@ -105,6 +105,7 @@ public class RunningAppRepository {
     }
 
 
+
     public LiveData<List<GoalActivitySubType>> getAllGoals() {
         return allGoals;
     }
@@ -122,10 +123,28 @@ public class RunningAppRepository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
+//    public List<ActivityType> getAllActivityTypesSpinner(){return new getAllActivityTypesSpinner(activityTypeDao).execute();}
+//
+//    private static class getAllActivityTypesSpinner extends AsyncTask<Void, Void, List<ActivityType>> {
+//        private ActivityTypeDao activityTypeDao;
+//
+//        private getAllActivityTypesSpinner(ActivityTypeDao activityTypeDao){this.activityTypeDao = activityTypeDao;}
+//
+//
+//        @Override
+//        protected List<ActivityType> doInBackground(Void... voids) {
+//            activityTypeDao.getAllActivityTypesSpinner();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<ActivityType> activityType){
+//            setActivityType(activityType);
+//        }
+//    }
 
 
     private static class GetLocationAsyncTask extends AsyncTask<Long, Void, LiveData<List<Location>>> {

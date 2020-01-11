@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -87,7 +89,7 @@ public class ActivitySelectActivityTypeGoal extends AppCompatActivity {
             goal = new Goal(activityTypeId, timeGoal, speedGoal);
             goalViewModel.insert(goal);
 
-            intent = new Intent(ActivitySelectActivityTypeGoal.this, GoalFragment.class);
+            Intent intent = new Intent(ActivitySelectActivityTypeGoal.this, MainActivity.class);
             startActivity(intent);
 
         } else if (requestCode == EDIT_GOAL_REQUEST && resultCode == RESULT_OK) {
@@ -104,6 +106,9 @@ public class ActivitySelectActivityTypeGoal extends AppCompatActivity {
             goal = new Goal(activityTypeId, timeGoal, speedGoal);
             goal.setId(id);
             goalViewModel.update(goal);
+            
+            Intent intent = new Intent(ActivitySelectActivityTypeGoal.this, MainActivity.class);
+            startActivity(intent);
 
         }
     }
