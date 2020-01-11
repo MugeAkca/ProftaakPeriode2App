@@ -30,6 +30,8 @@
     <string name="start_activity">Start activity</string>
     <string name="current_tempature">Current tempature:</string>
     <string name="lorem">lorem</string>
+    <string name="default_location">Fetching Location</string>
+    <string name="advice_for_activity">Advice</string>
 
     <string name="weather_description">This is the weather symbol</string>
 </resources>

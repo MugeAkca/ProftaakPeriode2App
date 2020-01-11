@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.runningapp.R;
 import com.example.runningapp.activity.ActivityStartActivity;
+import com.example.runningapp.activity.ClimateControllerActivity;
+import com.example.runningapp.activity.MainActivity;
 
 public class MainFragment extends Fragment {
     @Override
@@ -25,6 +28,17 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ActivityStartActivity.class);
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        ImageButton btn = (ImageButton) root.findViewById(R.id.weatherButton);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ClimateControllerActivity.class);
+                v.getContext().startActivity(intent);
+
             }
         });
 
