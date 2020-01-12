@@ -34,5 +34,7 @@
     <string name="default_location">Fetching Location</string>
     <string name="advice_for_activity">Advice</string>
     <string name="test">test</string>
-    <string name="het_weer">Het weer</string>
+    <string name="weer">weer</string>
+    <string name="het_weer">het weer</string>
+
 </resources>

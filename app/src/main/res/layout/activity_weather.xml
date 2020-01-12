@@ -26,7 +26,7 @@
         android:contentDescription="@string/weather_description"
         android:scaleType="fitCenter"
         android:src="@drawable/weericon"
-        android:text="@string/het_weer" />
+        android:text="@string/weer" />
 
     <TextView
         android:id="@+id/textLocation"
