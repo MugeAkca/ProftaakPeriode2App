@@ -141,11 +141,12 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     @Override
     protected void onPause() {
         super.onPause();
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        stopLocationUpdates();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
     @Override
     public void onLowMemory() {
@@ -213,6 +214,11 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                     }
                 },
                 Looper.myLooper());
+    }
+
+    public void stopLocationUpdates()
+
+    {        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
     public void onLocationChanged(Location location) {

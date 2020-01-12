@@ -14,12 +14,20 @@ public class ActivityEndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_end);
 
+        Button btnEndActivity = findViewById(R.id.btnEndActivity);
         Button btnCancelActivity = findViewById(R.id.btnCancelActivity);
 
         btnCancelActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        btnEndActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
