@@ -56,7 +56,11 @@ public class RunningAppRepository {
 
     public Long insertActivity(Activity activity){
         try {
-            return  new InsertActivityAsyncTask(activityDao).execute(activity).get();
+            try {
+                return  new InsertActivityAsyncTask(activityDao).execute(activity).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
@@ -118,7 +122,11 @@ public class RunningAppRepository {
 
     public LiveData<List<Location>> getLocations(long activityId) {
         try {
-            return new GetLocationAsyncTask(locationDao).execute(activityId).get();
+            try {
+                return new GetLocationAsyncTask(locationDao).execute(activityId).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
