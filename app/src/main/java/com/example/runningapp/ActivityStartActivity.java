@@ -79,19 +79,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_started);
 
-        //Clock
-        timer = findViewById(R.id.chronometer);
-        timer.setBase(SystemClock.elapsedRealtime());
-        timer.setFormat("H:MM:SS");
-        timer.start();
-
-        timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                //Log.d("CHM", "onChronometerTick: "+ chronometer.getText());
-            }
-        });
-
 
         //Set OnClickListener on the button for when the user stops the activity
         Button btnEndActivity = findViewById(R.id.btnEndActivity);
@@ -102,16 +89,33 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                 v.getContext().startActivity(intent);
             }
         });
+        
+
+        //Clock
+        Chronometer simpleChronometer = findViewById(R.id.chronometer); // initiate a chronometer
+        simpleChronometer.setFormat("H:MM:SS");
+        simpleChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                int h   = (int)(time /3600000);
+                int m = (int)(time - h*3600000)/60000;
+                int s= (int)(time - h*3600000- m*60000)/1000 ;
+                String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
+                chronometer.setText(t);
+            }
+        });
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+        simpleChronometer.setText("00:00:00");
+        simpleChronometer.start(); // start a chronometer
+
+
 
         //Map
         if(!checkPermissions()) {
             requestPermissions();
         }
-        Log.d("GPS", "OnCreate: GPS ");
-
         fusedLocationProviderClient = getFusedLocationProviderClient(this);
-
-
 
         getLastLocation();
         startLocationUpdates();
@@ -225,11 +229,10 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         routePoints.add(latLng);
         route.setPoints(routePoints);
 
-        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
         Log.d("GPS", "Longitude: "+ currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
     }
-
 
     private void getLastLocation() {
         if(checkPermissions())
@@ -255,21 +258,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         else{
             requestPermissions();
         }
-
-    }
-
-
-
-
-//    private void startLocationUpdates() {
-//        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-//                locationCallback,
-//                Looper.getMainLooper());
-//        requestingLocationUpdates = true;
-//    }
-    private void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-        requestingLocationUpdates = false;
     }
 
     private boolean checkPermissions() {
