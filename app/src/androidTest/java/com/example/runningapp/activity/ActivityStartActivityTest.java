@@ -40,9 +40,9 @@ public class ActivityStartActivityTest {
     // testLaunchOfSecondActivityOnButton
     @Test
     public void testLaunchOfSecondActivityOnButton(){
-        assertNotNull(mStartActivity.findViewById(R.id.btnEndActivity));
+        assertNotNull(mStartActivity.findViewById(R.id.btnEndActivityNow));
 
-        onView(withId(R.id.btnEndActivity)).perform(click());
+        onView(withId(R.id.btnEndActivityNow)).perform(click());
 
         Activity secondActivity = getInstrumentation().waitForMonitorWithTimeout(monitor, 100000000);
 
