@@ -12,25 +12,25 @@ import java.util.Date;
 public class Location implements Base {
     @PrimaryKey(autoGenerate = true)
     private long location_id;
-    private int activity_id;
-    private String longitude;
-    private String latitude;
-    private Time time;
+    private long activity_id;
+    private Double longitude;
+    private Double latitude;
+    private Long time;
 
-    public Location(int activity_id, String longitude, String latitude, String time) {
-        this.activity_id = activity_id;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.time = Time.valueOf(time);
-    }
-
-    public Location(long location_id, int activity_id, String longitude, String latitude, Time time) {
-        this.location_id = location_id;
+    public Location(long activity_id, Double longitude, Double latitude, Long time) {
         this.activity_id = activity_id;
         this.longitude = longitude;
         this.latitude = latitude;
         this.time = time;
     }
+
+    public Location(int activity_id, String longitude, String latitude, String time) {
+        this.activity_id = activity_id;
+        this.longitude = Double.valueOf(longitude);
+        this.latitude = Double.valueOf(latitude);
+        this.time = Long.valueOf(time);
+    }
+
 
     public long getLocation_id() {
         return location_id;
@@ -40,35 +40,35 @@ public class Location implements Base {
         this.location_id = location_id;
     }
 
-    public int getActivity_id() {
+    public long getActivity_id() {
         return activity_id;
     }
 
-    public void setActivity_id(int activity_id) {
+    public void setActivity_id(long activity_id) {
         this.activity_id = activity_id;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Time getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 }

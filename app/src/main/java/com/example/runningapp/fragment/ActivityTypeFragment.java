@@ -121,7 +121,6 @@ public class ActivityTypeFragment extends Fragment {
             activityTypeName = data.getStringExtra(ACTIVITY_TYPE_NEW_EDIT_NAME);
 
             ActivityType activityType = new ActivityType(activityTypeName);
-            activityType.setType_id(id);
             activityTypeViewModel.update(activityType);
 
         }

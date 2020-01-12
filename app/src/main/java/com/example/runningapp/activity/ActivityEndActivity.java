@@ -46,8 +46,6 @@ public class ActivityEndActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: FIX ACTIVITY_TYPE_SELECT
-                Activity activity = new Activity("1", startTime, endTime);
-                activityViewModel.insert(activity);
 
                 Intent intent = new Intent(ActivityEndActivity.this, MainActivity.class);
                 startActivityForResult(intent, ACTION);

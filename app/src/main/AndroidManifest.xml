@@ -3,13 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.runningapp">
 
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -17,12 +23,20 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDxjRm-WgNAxnvO7iBuNFO_S1fXXbBCTss" />
 
         <activity android:name=".activity.ActivityEndActivity" />
-        <activity android:name=".activity.ActivityStartActivity" />
         <activity android:theme="@style/AppTheme2" android:name=".activity.ActivityGoalNewEdit"/>
         <activity android:theme="@style/AppTheme2" android:name=".activity.ActivityActivityNewEdit"/>
         <activity android:theme="@style/AppTheme2" android:name=".activity.ActivitySelectActivityType"/>
@@ -31,6 +45,7 @@
         <activity android:name=".activity.ActivityTypeNewEdit" android:theme="@style/AppTheme2"/>
         <activity android:name=".activity.ActivityLocationNewEdit" android:theme="@style/AppTheme2"/>
         <activity android:name=".activity.ClimateControllerActivity"/>
+        <activity android:name=".activity.ActivityStartActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
 
 

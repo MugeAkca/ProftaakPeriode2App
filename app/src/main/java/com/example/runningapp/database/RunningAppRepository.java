@@ -35,6 +35,7 @@ public class RunningAppRepository {
     private LiveData<List<ActivityType>> allActivityTypes;
     private LiveData<List<GoalActivitySubType>> allGoals;
     private LiveData<List<Location>> allLocations;
+    private Activity getActivity;
 
 
     // Activity
@@ -51,6 +52,16 @@ public class RunningAppRepository {
         allGoals = goalDao.getAllGoals2();
         locationDao = database.locationDao();
         allLocations = locationDao.getAllLocations();
+    }
+
+    public Long insertActivity(Activity activity){
+        try {
+            return  new InsertActivityAsyncTask(activityDao).execute(activity).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void insert(Base base) {
@@ -85,16 +96,6 @@ public class RunningAppRepository {
         }
     }
 
-    public void deleteAll(Base base) {
-        if (base instanceof Goal) {
-            new DeleteAllGoalsAsyncTask(goalDao).execute();
-        } else if (base instanceof Activity) {
-            new DeleteAllActivitysAsyncTask(activityDao).execute();
-        } else if (base instanceof ActivityType) {
-            new DeleteAllActivityTypesAsyncTask(activityTypeDao).execute();
-        }
-    }
-
     public LiveData<List<ActivityActivitySubType>> getAllActivities() {
         return allActivities;
     }
@@ -119,8 +120,6 @@ public class RunningAppRepository {
         try {
             return new GetLocationAsyncTask(locationDao).execute(activityId).get();
         } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -147,6 +146,8 @@ public class RunningAppRepository {
 //    }
 
 
+
+
     private static class GetLocationAsyncTask extends AsyncTask<Long, Void, LiveData<List<Location>>> {
         private LocationDao locationDao;
 
@@ -160,7 +161,7 @@ public class RunningAppRepository {
         }
     }
 
-    private static class InsertActivityAsyncTask extends AsyncTask<Activity, Void, Void> {
+    private static class InsertActivityAsyncTask extends AsyncTask<Activity, Void, Long> {
 
         private ActivityDao activityDao;
 
@@ -169,11 +170,11 @@ public class RunningAppRepository {
         }
 
         @Override
-        protected Void doInBackground(Activity... activitys) {
-            activityDao.insert(activitys[0]);
-            return null;
+        protected Long doInBackground(Activity... activitys) {
+          return activityDao.insert(activitys[0]);
         }
     }
+
 
 
     //

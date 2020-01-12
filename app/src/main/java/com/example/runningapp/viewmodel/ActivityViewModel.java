@@ -27,8 +27,8 @@ public class ActivityViewModel extends AndroidViewModel {
         allActivities = repository.getAllActivities();
     }
 
-    public void insert(Activity activity) {
-        repository.insert(activity);
+    public Long insert(Activity activity) {
+       return repository.insertActivity(activity);
     }
 
     public void update(Activity activity) {
@@ -42,5 +42,6 @@ public class ActivityViewModel extends AndroidViewModel {
     public LiveData<List<ActivityActivitySubType>> getAllActivities() {
         return allActivities;
     }
+
 
 }

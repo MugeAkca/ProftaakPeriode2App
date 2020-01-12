@@ -20,7 +20,7 @@ import java.util.List;
 @Dao
 public interface ActivityDao {
     @Insert
-    void insert(Activity activity);
+    long insert(Activity activity);
 
     @Update
     void update(Activity activity);
@@ -34,5 +34,8 @@ public interface ActivityDao {
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM activity_table LEFT JOIN activity_type_table ON activity_table.activity_type_id = activity_type_table.type_id")
     LiveData<List<ActivityActivitySubType>> getAllActivities();
+
+    @Query("SELECT * FROM activity_table WHERE id = :activityId")
+    Activity getActivity(int activityId);
 
 }

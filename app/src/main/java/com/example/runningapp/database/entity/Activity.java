@@ -11,6 +11,10 @@ import static java.lang.Integer.parseInt;
 @Entity(tableName = "activity_table")
 public class Activity implements Base {
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -30,9 +34,7 @@ public class Activity implements Base {
         this.end_date = end_date;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     public int getId() {
         return id;

@@ -2,6 +2,7 @@ package com.example.runningapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -57,7 +58,7 @@ public class ActivitySelectActivityType extends AppCompatActivity {
             @Override
             public void onItemClick(ActivityType activityType) {
                 Intent intent = new Intent(ActivitySelectActivityType.this, ActivityStartActivity.class);
-                intent.putExtra(ACTIVITY_TYPE_NEW_EDIT_ID, activityType.getType_id());
+                intent.putExtra(ACTIVITY_TYPE_NEW_EDIT_ID, String.valueOf(activityType.getType_id()));
                 intent.putExtra(ACTIVITY_TYPE_NEW_EDIT_NAME, activityType.getName());
                 intent.putExtra(ACTIVITY_START_TIME, startTime);
                 startActivityForResult(intent, SELECT_ACTIVITY_TYPE_REQUEST);

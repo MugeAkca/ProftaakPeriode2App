@@ -36,4 +36,12 @@
     <string name="test">test</string>
     <string name="weer">weer</string>
     <string name="het_weer">het weer</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="end_activity">End activity</string>
+    <string name="speed">Speed:</string>
+    <string name="time">Time:</string>
+    <string name="_0_km_h">0 Km / H</string>
 </resources>
