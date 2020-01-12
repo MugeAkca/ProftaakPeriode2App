@@ -55,7 +55,7 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 public class ActivityStartActivity extends FragmentActivity implements OnMapReadyCallback {
     //Clock
-    Chronometer timer;
+    private Chronometer timer;
 
     //Map
     private MapView mapView;
@@ -68,7 +68,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     private LocationRequest locationRequest;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
-    private boolean requestingLocationUpdates;
 
     private Polyline route;
     private PolylineOptions routeOps;
@@ -89,7 +88,7 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                 v.getContext().startActivity(intent);
             }
         });
-        
+
 
         //Clock
         Chronometer simpleChronometer = findViewById(R.id.chronometer); // initiate a chronometer
@@ -109,8 +108,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         simpleChronometer.setText("00:00:00");
         simpleChronometer.start(); // start a chronometer
 
-
-
         //Map
         if(!checkPermissions()) {
             requestPermissions();
@@ -129,7 +126,7 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
-        startLocationUpdates();
+        //startLocationUpdates();
     }
 
     @Override
@@ -157,10 +154,12 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        if(googleMap == null){
+            return;
+        }
         gmap = googleMap;
         gmap.setMyLocationEnabled(true);
-        gmap.getUiSettings().setMyLocationButtonEnabled(true);
-
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -171,6 +170,7 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                 onLocationChanged(locationResult.getLastLocation());
             }
         };
+
 
         routeOps = new PolylineOptions()
                 .color(Color.BLUE)
@@ -183,6 +183,7 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
         }
     }
+
 
     // Trigger new location updates at interval
     protected void startLocationUpdates() {
@@ -225,11 +226,17 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         currentLocation = location;
 
-        routePoints = route.getPoints();
-        routePoints.add(latLng);
-        route.setPoints(routePoints);
+        if(route != null)
+        {
+            routePoints = route.getPoints();
+            routePoints.add(latLng);
+            route.setPoints(routePoints);
+        }
 
-        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        if(gmap != null)
+        {
+            gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        }
 
         Log.d("GPS", "Longitude: "+ currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
     }
