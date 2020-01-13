@@ -57,7 +57,7 @@ public class ActivityStartActivityTest {
     @Test
     public void testLaunch(){
 
-        View view = mStartActivity.findViewById(R.id.lblLocation);
+        View view = mStartActivity.findViewById(R.id.lblCurrentActivity);
 
         assertNotNull(view);
 

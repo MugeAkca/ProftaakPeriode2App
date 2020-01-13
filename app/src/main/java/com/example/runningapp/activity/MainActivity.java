@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_activity_type:
                 fragment = new ActivityTypeFragment();
                 break;
-            case R.id.nav_location:
-                fragment = new LocationFragment();
-                break;
+        //    case R.id.nav_location:
+        //        fragment = new LocationFragment();
+        //        break;
         }
 
         if (fragment != null) {
