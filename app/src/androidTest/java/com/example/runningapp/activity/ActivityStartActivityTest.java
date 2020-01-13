@@ -31,7 +31,6 @@ public class ActivityStartActivityTest {
     Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityEndActivity.class.getName(), null, false);
 
 
-
     @Before
     public void setUp() throws Exception {
         mStartActivity = mActivityTestRule.getActivity();
@@ -39,7 +38,7 @@ public class ActivityStartActivityTest {
 
     // testLaunchOfSecondActivityOnButton
     @Test
-    public void testLaunchOfSecondActivityOnButton(){
+    public void testLaunchOfSecondActivityOnButton() {
         assertNotNull(mStartActivity.findViewById(R.id.btnEndActivity));
 
         onView(withId(R.id.btnEndActivity)).perform(click());
@@ -51,24 +50,20 @@ public class ActivityStartActivityTest {
         secondActivity.finish();
 
 
-
-
     }
+
     @Test
-    public void testLaunch(){
+    public void testLaunch() {
 
         View view = mStartActivity.findViewById(R.id.lblCurrentActivity);
 
         assertNotNull(view);
 
     }
+
     @After
     public void tearDown() throws Exception {
         mStartActivity = null;
 
-    }
-
-    @Test
-    public void onCreate() {
     }
 }

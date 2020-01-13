@@ -97,59 +97,66 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity_started);
 
-        //Clock
-        timer = findViewById(R.id.chronometer);
-        timer.setBase(SystemClock.elapsedRealtime());
-        timer.setFormat("H:MM:SS");
-        timer.start();
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_activity_started);
 
-        timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                //Log.d("CHM", "onChronometerTick: "+ chronometer.getText());
+            //Clock
+            timer = findViewById(R.id.chronometer);
+            timer.setBase(SystemClock.elapsedRealtime());
+            timer.setFormat("H:MM:SS");
+            timer.start();
+
+            timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
+                    //Log.d("CHM", "onChronometerTick: "+ chronometer.getText());
+                }
+            });
+
+            intent = getIntent();
+            activityTypeId = intent.getStringExtra("ACTIVITY_TYPE_NEW_EDIT_ID");
+            activityTypeName = intent.getStringExtra("ACTIVITY_TYPE_NEW_EDIT_NAME");
+            activityStartTime = intent.getStringExtra("ACTIVITY_START_TIME");
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD-MM-yyyy HH:mm");
+            date = new java.util.Date();
+            final String ts = simpleDateFormat.format(date);
+
+            activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel.class);
+            Activity activity = new Activity(activityTypeId, activityStartTime, ts);
+            activityId = activityViewModel.insert(activity);
+
+            //Set OnClickListener on the button for when the user stops the activity
+            Button btnEndActivity = findViewById(R.id.btnEndActivity);
+            btnEndActivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stopLocationUpdates();
+                    Intent intent = new Intent(v.getContext(), ActivityEndActivity.class);
+                    v.getContext().startActivity(intent);
+                    finish();
+                }
+            });
+
+            //Map
+            if(!checkPermissions()) {
+                requestPermissions();
             }
-        });
+            Log.d("GPS", "OnCreate: GPS ");
 
-        intent = getIntent();
-        activityTypeId = intent.getStringExtra("ACTIVITY_TYPE_NEW_EDIT_ID");
-        activityTypeName = intent.getStringExtra("ACTIVITY_TYPE_NEW_EDIT_NAME");
-        activityStartTime = intent.getStringExtra("ACTIVITY_START_TIME");
+            fusedLocationProviderClient = getFusedLocationProviderClient(this);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD-MM-yyyy HH:mm");
-        date = new java.util.Date();
-        final String ts = simpleDateFormat.format(date);
 
-        activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel.class);
-        Activity activity = new Activity(activityTypeId, activityStartTime, ts);
-        activityId = activityViewModel.insert(activity);
 
-        //Set OnClickListener on the button for when the user stops the activity
-        Button btnEndActivity = findViewById(R.id.btnEndActivity);
-        btnEndActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopLocationUpdates();
-                Intent intent = new Intent(v.getContext(), ActivityEndActivity.class);
-                v.getContext().startActivity(intent);
-                finish();
-            }
-        });
+            getLastLocation();
+            startLocationUpdates();
 
-        //Map
-        if(!checkPermissions()) {
-            requestPermissions();
+
+        } catch (NumberFormatException | NullPointerException e){
+
         }
-        Log.d("GPS", "OnCreate: GPS ");
-
-        fusedLocationProviderClient = getFusedLocationProviderClient(this);
-
-
-
-        getLastLocation();
-        startLocationUpdates();
 
     }
     @Override
@@ -171,18 +178,30 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
 
     @Override
     protected void onStop() {
-        super.onStop();
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        try {
+            super.onStop();
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }catch (NullPointerException e){
+
+        }
     }
     @Override
     protected void onPause() {
-        super.onPause();
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        try {
+            super.onPause();
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }catch(NullPointerException e){
+
+        }
     }
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        try {
+            super.onDestroy();
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }catch (NullPointerException e){
+
+        }
     }
     @Override
     public void onLowMemory() {
@@ -221,55 +240,66 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     // Trigger new location updates at interval
     protected void startLocationUpdates() {
 
-        // Create the location request to start receiving updates
-        locationRequest = new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(2000);
+        try {
 
-        // Create LocationSettingsRequest object using location request
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(locationRequest);
-        LocationSettingsRequest locationSettingsRequest = builder.build();
+            // Create the location request to start receiving updates
+            locationRequest = new LocationRequest();
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setInterval(10000);
+            locationRequest.setFastestInterval(2000);
 
-        // Check whether location settings are satisfied
-        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
-        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
-        settingsClient.checkLocationSettings(locationSettingsRequest);
+            // Create LocationSettingsRequest object using location request
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+            builder.addLocationRequest(locationRequest);
+            LocationSettingsRequest locationSettingsRequest = builder.build();
 
-        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-        getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        // do work here
-                        onLocationChanged(locationResult.getLastLocation());
-                    }
-                },
-                Looper.myLooper());
+            // Check whether location settings are satisfied
+            // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
+            SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+            settingsClient.checkLocationSettings(locationSettingsRequest);
+
+            // new Google API SDK v11 uses getFusedLocationProviderClient(this)
+            getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                        @Override
+                        public void onLocationResult(LocationResult locationResult) {
+                            // do work here
+                            onLocationChanged(locationResult.getLastLocation());
+                        }
+                    },
+                    Looper.myLooper());
+        }catch (NullPointerException e){
+
+        }
     }
 
     public void onLocationChanged(Location location) {
-        // New location has now been determined
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-        // You can now create a LatLng Object for use with maps
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        currentLocation = location;
+        try {
+            // New location has now been determined
+            String msg = "Updated Location: " +
+                    Double.toString(location.getLatitude()) + "," +
+                    Double.toString(location.getLongitude());
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-        routePoints = route.getPoints();
-        routePoints.add(latLng);
-        route.setPoints(routePoints);
+            // You can now create a LatLng Object for use with maps
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            currentLocation = location;
 
-        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+            routePoints = route.getPoints();
+            routePoints.add(latLng);
+            route.setPoints(routePoints);
 
-        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
-        saveLocation = new com.example.runningapp.database.entity.Location(activityId, location.getLongitude(), location.getLatitude(),location.getTime());
-        locationViewModel.insert(saveLocation);
+            gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 
-        Log.d("GPS", "Longitude: "+ currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
+            locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
+            saveLocation = new com.example.runningapp.database.entity.Location(activityId, location.getLongitude(), location.getLatitude(), location.getTime());
+            locationViewModel.insert(saveLocation);
+
+            Log.d("GPS", "Longitude: " + currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
+
+        }catch (NullPointerException e){
+
+        }
     }
 
 
