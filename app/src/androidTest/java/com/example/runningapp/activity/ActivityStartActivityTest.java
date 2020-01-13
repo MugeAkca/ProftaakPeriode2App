@@ -24,22 +24,21 @@ import com.example.runningapp.R;
 public class ActivityStartActivityTest {
 
     @Rule
-    public ActivityTestRule<ActivityStartActivity> mActivityTestRule = new ActivityTestRule<>(ActivityStartActivity.class);
+    public ActivityTestRule<ActivityStartActivity> mActivityTestRule = new ActivityTestRule<ActivityStartActivity>(ActivityStartActivity.class);
 
     private ActivityStartActivity mStartActivity = null;
 
-    private Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityEndActivity.class.getName(), null, false);
-
+    Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityEndActivity.class.getName(), null, false);
 
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         mStartActivity = mActivityTestRule.getActivity();
     }
 
     // testLaunchOfSecondActivityOnButton
     @Test
-    public void testLaunchOfSecondActivityOnButton(){
+    public void testLaunchOfSecondActivityOnButton() {
         assertNotNull(mStartActivity.findViewById(R.id.btnEndActivity));
 
         onView(withId(R.id.btnEndActivity)).perform(click());
@@ -51,24 +50,20 @@ public class ActivityStartActivityTest {
         secondActivity.finish();
 
 
-
-
     }
-    @Test
-    public void testLaunch(){
 
-        View view = mStartActivity.findViewById(R.id.divider2);
+    @Test
+    public void testLaunch() {
+
+        View view = mStartActivity.findViewById(R.id.lblCurrentActivity);
 
         assertNotNull(view);
 
     }
+
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         mStartActivity = null;
 
-    }
-
-    @Test
-    public void onCreate() {
     }
 }
