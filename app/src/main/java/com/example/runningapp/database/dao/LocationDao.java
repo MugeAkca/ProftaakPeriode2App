@@ -17,7 +17,7 @@ import java.util.List;
 @Dao
 public interface LocationDao {
     @Insert
-    void insert(Location location);
+    long insert(Location location);
 
     @Update
     void update(Location location);
@@ -31,8 +31,11 @@ public interface LocationDao {
       */
 
     @Query("SELECT * FROM location_table WHERE activity_id = :activity_id")
-    LiveData<List<Location>> getLocation(long activity_id);
+    LiveData<List<Location>> getLocations(long activity_id);
 
+
+    @Query("SELECT * FROM location_table WHERE activity_id = :activity_id LIMIT 1")
+    Location getLocation(long activity_id);
 
     @Query("SELECT * FROM location_table")
     LiveData<List<Location>> getAllLocations();

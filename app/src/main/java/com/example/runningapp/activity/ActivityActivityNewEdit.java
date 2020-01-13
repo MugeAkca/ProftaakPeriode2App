@@ -1,5 +1,6 @@
 package com.example.runningapp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +26,11 @@ import com.example.runningapp.database.entity.ActivityType;
 import com.example.runningapp.database.entity.Location;
 import com.example.runningapp.viewmodel.ActivityViewModel;
 import com.example.runningapp.viewmodel.LocationViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.w3c.dom.Text;
 
@@ -34,7 +40,8 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ActivityActivityNewEdit extends AppCompatActivity {
+public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapReadyCallback {
+
     public static final String ACTIVITY_NEW_EDIT_ID = "ACTIVITY_NEW_EDIT_ID";
     public static final String ACTIVITY_NEW_EDIT_TYPE_ID = "ACTIVITY_NEW_EDIT_TYPE_ID";
     public static final String ACTIVITY_NEW_EDIT_TYPE_NAME = "ACTIVITY_NEW_EDIT_TYPE_NAME";
@@ -51,7 +58,10 @@ public class ActivityActivityNewEdit extends AppCompatActivity {
     private String speedActivity;
     private String activityNewEditId;
     private String pattern = "dd-MMM-yyyy HH:mm:ss";
+    @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    private GoogleMap mMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +151,15 @@ public class ActivityActivityNewEdit extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-}
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+//        mMap = googleMap;
+//
+//        // Add a marker in Sydney, Australia, and move the camera.
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+}
 

@@ -38,4 +38,5 @@ public interface ActivityDao {
     @Query("SELECT * FROM activity_table WHERE id = :activityId")
     Activity getActivity(int activityId);
 
+
 }

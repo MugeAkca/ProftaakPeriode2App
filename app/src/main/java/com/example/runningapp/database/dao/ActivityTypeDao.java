@@ -17,7 +17,7 @@ import java.util.List;
 @Dao
 public interface ActivityTypeDao {
     @Insert
-    void insert(ActivityType activityType);
+    long insert(ActivityType activityType);
 
     @Update
     void update(ActivityType activityType);
@@ -32,9 +32,8 @@ public interface ActivityTypeDao {
     LiveData<List<ActivityType>> getAllActivityTypes();
 
     @Query("SELECT * FROM activity_type_table WHERE type_id = :typeId")
-    LiveData<List<ActivityType>> getActivityType(int typeId);
+    LiveData<List<ActivityType>> getActivityTypes(int typeId);
 
-    @Query("SELECT * FROM activity_type_table")
-    List<ActivityType> getAllActivityTypesSpinner();
-
+    @Query("SELECT * FROM activity_type_table WHERE type_id = :typeId")
+    ActivityType getActivityType(int typeId);
 }

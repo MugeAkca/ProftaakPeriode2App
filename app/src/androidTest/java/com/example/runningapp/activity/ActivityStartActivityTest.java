@@ -24,16 +24,16 @@ import com.example.runningapp.R;
 public class ActivityStartActivityTest {
 
     @Rule
-    public ActivityTestRule<ActivityStartActivity> mActivityTestRule = new ActivityTestRule<ActivityStartActivity>(ActivityStartActivity.class);
+    public ActivityTestRule<ActivityStartActivity> mActivityTestRule = new ActivityTestRule<>(ActivityStartActivity.class);
 
     private ActivityStartActivity mStartActivity = null;
 
-    Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityEndActivity.class.getName(), null, false);
+    private Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityEndActivity.class.getName(), null, false);
 
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mStartActivity = mActivityTestRule.getActivity();
     }
 
@@ -57,13 +57,13 @@ public class ActivityStartActivityTest {
     @Test
     public void testLaunch(){
 
-        View view = mStartActivity.findViewById(R.id.lblLocation);
+        View view = mStartActivity.findViewById(R.id.divider2);
 
         assertNotNull(view);
 
     }
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         mStartActivity = null;
 
     }

@@ -165,7 +165,7 @@ public class RunningAppRepository {
 
         @Override
         protected LiveData<List<Location>> doInBackground(Long... longs) {
-            return locationDao.getLocation(longs[0]);
+            return locationDao.getLocations(longs[0]);
         }
     }
 
