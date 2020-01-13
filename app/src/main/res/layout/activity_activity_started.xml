@@ -19,11 +19,11 @@
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <TextView
-        android:id="@+id/lblSpeedView"
+        android:id="@+id/lblStepView"
         android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Speed:"
+        android:text="Steps:"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,11 +45,11 @@
         app:layout_constraintTop_toBottomOf="@+id/lblCurrentActivity" />
 
     <TextView
-        android:id="@+id/speed"
+        android:id="@+id/step"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="0 Km / H"
+        android:text="0"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
