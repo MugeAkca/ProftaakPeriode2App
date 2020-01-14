@@ -29,7 +29,7 @@ public class ActivityEndActivityTest {
 
     private ActivityEndActivity mStartActivity = null;
 
-    Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityStartActivity.class.getName(), null, false);
+    Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(MainActivity.class.getName(), null, false);
 
     @Before
     public void setUp() throws Exception {

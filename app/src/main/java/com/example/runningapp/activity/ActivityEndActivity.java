@@ -34,7 +34,7 @@ public class ActivityEndActivity extends AppCompatActivity {
         btnCancelActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ActivityStartActivity.class);
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
                 v.getContext().startActivity(intent);
 
             }

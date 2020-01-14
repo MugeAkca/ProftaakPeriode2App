@@ -378,7 +378,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             saveLocation = new com.example.runningapp.database.entity.Location(activityId, location.getLongitude(), location.getLatitude(), location.getTime());
             locationViewModel.insert(saveLocation);
 
-//            Log.d("GPS", "Longitude: " + currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
 
         }catch (NullPointerException e){
 
@@ -388,7 +387,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     private void getLastLocation() {
         if(checkPermissions())
         {
-            Log.d("GPS", "GetLastLocation");
 
             Task<Location> task = fusedLocationProviderClient.getLastLocation();
             task.addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -400,7 +398,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.activityMap);
                         assert supportMapFragment != null;
                         supportMapFragment.getMapAsync(ActivityStartActivity.this);
-                        Log.d("GPS", "gps: "+ currentLocation.getLongitude());
                     }
                 }
             });
