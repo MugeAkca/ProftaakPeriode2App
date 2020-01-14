@@ -38,9 +38,6 @@ public class LocationViewModel extends AndroidViewModel {
         repository.delete(location);
     }
 
-    public LiveData<List<Location>> getLocations(long activityId) {
-        return repository.getLocations(activityId);
-    }
 
     public List<Location> getLocationsList(long activityId) {
         return repository.getLocationsList(activityId);
@@ -49,7 +46,5 @@ public class LocationViewModel extends AndroidViewModel {
     public LiveData<List<Location>> getAllLocations() {
         return allLocations;
     }
-
-
 
 }

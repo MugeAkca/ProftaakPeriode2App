@@ -42,6 +42,7 @@ public class ActivityTypeFragment extends Fragment {
     private FloatingActionButton buttonAddActivityType;
     private RecyclerView recyclerView;
     private ActivityType activityType;
+    private int id;
 
     @Nullable
     @Override
@@ -112,10 +113,12 @@ public class ActivityTypeFragment extends Fragment {
             activityType = new ActivityType(activityTypeName);
             activityTypeViewModel.insert(activityType);
 
-            Log.d("test2", "test12");
-
         } else {
-            int id = data.getIntExtra(ACTIVITY_TYPE_NEW_EDIT_ID, -1);
+            try {
+                id = data.getIntExtra(ACTIVITY_TYPE_NEW_EDIT_ID, -1);
+            }catch (Exception e){
+                id = -1;
+            }
 
             if (id == -1) {
                 return;

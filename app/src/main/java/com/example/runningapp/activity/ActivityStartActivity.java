@@ -14,6 +14,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -25,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.runningapp.R;
@@ -65,9 +70,12 @@ import static com.example.runningapp.activity.ActivityTypeNewEdit.ACTIVITY_TYPE_
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 
-public class ActivityStartActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ActivityStartActivity extends FragmentActivity implements OnMapReadyCallback, SensorEventListener {
     //Clock
-    Chronometer timer;
+    private Chronometer timer;
+
+
+
 
     //Map
     private MapView mapView;
@@ -97,6 +105,13 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     private long activityId;
     private Button btnEndActivity;
     private Looper myLooper;
+
+    //Step Sensor
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    private boolean isSensorPresent = false;
+    private TextView mStepsSinceReboot;
+    private int stepsSinceReboot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,13 +157,47 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                     finish();
                 }
             });
-
-            //Map
+        //First check permissions
             if(!checkPermissions()) {
                 requestPermissions();
             }
-            Log.d("GPS", "OnCreate: GPS ");
 
+
+        //Step sensor
+        mStepsSinceReboot = findViewById(R.id.step);
+
+        mSensorManager = (SensorManager)this.getSystemService(Context.SENSOR_SERVICE);
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
+        {
+            mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            isSensorPresent = true;
+        }
+        else{
+            isSensorPresent = false;
+        }
+
+
+
+        //Clock
+        Chronometer simpleChronometer = findViewById(R.id.chronometer); // initiate a chronometer
+        simpleChronometer.setFormat("H:MM:SS");
+        //Calculate the time for the format hour/minute/seconds
+        simpleChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                int h   = (int)(time /3600000);
+                int m = (int)(time - h*3600000)/60000;
+                int s= (int)(time - h*3600000- m*60000)/1000 ;
+                String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
+                chronometer.setText(t);
+            }
+        });
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+        simpleChronometer.setText("00:00:00");
+        simpleChronometer.start(); // start a chronometer
+
+        //Map
             fusedLocationProviderClient = getFusedLocationProviderClient(this);
 
 
@@ -171,23 +220,28 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     protected void onResume() {
         super.onResume();
         startLocationUpdates();
+        if(isSensorPresent){
+            mSensorManager.registerListener(this, mSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
     protected void onStop() {
             super.onStop();
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
     @Override
     protected void onPause() {
         try {
             super.onPause();
+        stopLocationUpdates();
+        if(isSensorPresent){
+            mSensorManager.unregisterListener(this);
+        }
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
 
         }catch(NullPointerException e){
@@ -210,6 +264,9 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        if(googleMap == null){
+            return;
+        }
         gmap = googleMap;
         gmap.setMyLocationEnabled(true);
         gmap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -225,20 +282,38 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             }
         };
 
+        //Draw a line from where the user starts
         routeOps = new PolylineOptions()
                 .color(Color.BLUE)
                 .width(4);
         route = gmap.addPolyline(routeOps);
         route.setVisible(true);
 
+        //Zoom into the currentlocation
         if(currentLocation != null) {
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
         }
     }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        int calculatedSteps = Math.round(event.values[0]);
+        if(stepsSinceReboot  < 1){
+            stepsSinceReboot = Math.round(event.values[0]);
+
+        }
+
+        mStepsSinceReboot.setText(Integer.toString(calculatedSteps - stepsSinceReboot));
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 
     // Trigger new location updates at interval
-    protected void startLocationUpdates() {
+    public void startLocationUpdates() {
 
         try {
 
@@ -248,15 +323,12 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             locationRequest.setInterval(10000);
             locationRequest.setFastestInterval(2000);
 
-
-
             // Create LocationSettingsRequest object using location request
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
             builder.addLocationRequest(locationRequest);
             LocationSettingsRequest locationSettingsRequest = builder.build();
 
             // Check whether location settings are satisfied
-            // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
             SettingsClient settingsClient = LocationServices.getSettingsClient(this);
             settingsClient.checkLocationSettings(locationSettingsRequest);
 
@@ -277,6 +349,13 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         }
     }
 
+    public void stopLocationUpdates(){
+        if(locationCallback != null)
+        {
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
     public void onLocationChanged(Location location) {
 
         try {
@@ -285,11 +364,15 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             currentLocation = location;
 
+        if(route != null){
             routePoints = route.getPoints();
             routePoints.add(latLng);
             route.setPoints(routePoints);
+        }
 
-            gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        if(gmap != null){
+            gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        }
 
             locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
             saveLocation = new com.example.runningapp.database.entity.Location(activityId, location.getLongitude(), location.getLatitude(), location.getTime());
@@ -301,7 +384,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
 
         }
     }
-
 
     private void getLastLocation() {
         if(checkPermissions())
@@ -318,7 +400,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.activityMap);
                         assert supportMapFragment != null;
                         supportMapFragment.getMapAsync(ActivityStartActivity.this);
-
                         Log.d("GPS", "gps: "+ currentLocation.getLongitude());
                     }
                 }
@@ -327,34 +408,29 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
         else{
             requestPermissions();
         }
-
     }
 
-
-
-
-    //    private void startLocationUpdates() {
-//        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-//                locationCallback,
-//                Looper.getMainLooper());
-//        requestingLocationUpdates = true;
-//    }
-    private void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-        requestingLocationUpdates = false;
-    }
-
+    //Permission check methods
     private boolean checkPermissions() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(
                 this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACTIVITY_RECOGNITION
+                },
                 PERMISSION_ID
         );
+
     }
 
     private boolean isLocationEnabled() {

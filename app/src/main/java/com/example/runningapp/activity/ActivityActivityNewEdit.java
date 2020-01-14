@@ -1,6 +1,5 @@
 package com.example.runningapp.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,49 +7,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.runningapp.R;
-import com.example.runningapp.adapter.ActivityTypeAdapter;
-import com.example.runningapp.adapter.LocationAdapter;
 import com.example.runningapp.database.entity.Activity;
-import com.example.runningapp.database.entity.ActivityType;
-import com.example.runningapp.database.entity.GoalActivitySubType;
 import com.example.runningapp.database.entity.Location;
 import com.example.runningapp.viewmodel.ActivityViewModel;
-import com.example.runningapp.viewmodel.GoalViewModel;
 import com.example.runningapp.viewmodel.LocationViewModel;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.w3c.dom.Text;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -159,7 +136,7 @@ public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapR
         gmap.setMyLocationEnabled(true);
         gmap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        List<Location> arjan = locationViewModel.getLocationsList(Long.valueOf(activityNewEditId));
+        List<Location> getLocations = locationViewModel.getLocationsList(Long.valueOf(activityNewEditId));
 
         routeOps = new PolylineOptions()
                 .color(Color.BLUE)
@@ -167,11 +144,11 @@ public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapR
         route = gmap.addPolyline(routeOps);
         route.setVisible(true);
 
-        for(Location locationa : arjan) {
-            onLocationChanged(locationa.getLatitude(), locationa.getLongitude());
+        for(Location locationNow : getLocations) {
+            onLocationChanged(locationNow.getLatitude(), locationNow.getLongitude());
         }
 
-        LatLng latLng = new LatLng(arjan.get(0).getLatitude(), arjan.get(0).getLongitude());
+        LatLng latLng = new LatLng(getLocations.get(0).getLatitude(), getLocations.get(0).getLongitude());
         Log.d("test", latLng.toString());
         gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
 

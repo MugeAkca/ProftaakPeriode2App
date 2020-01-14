@@ -20,7 +20,6 @@ import java.util.List;
 public class GoalViewModel extends AndroidViewModel {
     private RunningAppRepository repository;
     private LiveData<List<GoalActivitySubType>> allGoals;
-    private Goal goal;
 
     public GoalViewModel(@NonNull Application application) {
         super(application);

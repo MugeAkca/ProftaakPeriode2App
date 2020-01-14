@@ -60,12 +60,15 @@ public class GoalAdapter extends ListAdapter<GoalActivitySubType, GoalAdapter.Go
         return getItem(position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
 
+    // update
     public interface OnItemClickListener {
         void onItemClick(GoalActivitySubType goalActivitySubType);
+    }
+
+    //adapter listener parse to interface
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     // Hold views in single recyclerview items
