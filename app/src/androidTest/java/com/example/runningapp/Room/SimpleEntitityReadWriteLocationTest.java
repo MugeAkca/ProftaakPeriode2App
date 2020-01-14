@@ -27,15 +27,8 @@ public class SimpleEntitityReadWriteLocationTest {
     private com.example.runningapp.database.dao.LocationDao LocationDao;
     private RunningAppDatabase db;
     private long insertLocationId;
-    private long getLocationId;
     private com.example.runningapp.database.entity.Location Location;
     private long getLocation;
-    private Date date;
-    private Activity activity;
-    private long insertActivityId;
-    private Activity getActivity;
-    private int getActivityId;
-    private ActivityDao activityDao;
 
 
     @Before
@@ -51,10 +44,12 @@ public class SimpleEntitityReadWriteLocationTest {
     }
 
     @Test
-    public void writeLocationAndReadInList() throws Exception{
+    public void writeLocationAndReadInList() {
         Location = new Location(1,String.valueOf(37.422), String.valueOf(-122.084), "1368590417000");
         insertLocationId = LocationDao.insert(Location);
         getLocation = LocationDao.getLocation(insertLocationId).getLocation_id();
+
+
         assertEquals(insertLocationId, getLocation);
     }
 }

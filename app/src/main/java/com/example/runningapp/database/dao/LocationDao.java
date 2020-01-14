@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
 import com.example.runningapp.database.entity.Location;
@@ -32,6 +33,13 @@ public interface LocationDao {
 
     @Query("SELECT * FROM location_table WHERE activity_id = :activity_id")
     LiveData<List<Location>> getLocations(long activity_id);
+
+    @Query("SELECT * FROM location_table WHERE activity_id = :activity_id")
+    List<Location> getLocationsList(long activity_id);
+
+//    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+//    @Query("SELECT longitude, latitude FROM location_table WHERE activity_id = :activity_id")
+//    LiveData<List<Location>> getListLocation(long activity_id);
 
 
     @Query("SELECT * FROM location_table WHERE activity_id = :activity_id LIMIT 1")

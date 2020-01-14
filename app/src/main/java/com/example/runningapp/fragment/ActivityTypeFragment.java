@@ -3,6 +3,7 @@ package com.example.runningapp.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.print.PrinterId;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +112,9 @@ public class ActivityTypeFragment extends Fragment {
             activityType = new ActivityType(activityTypeName);
             activityTypeViewModel.insert(activityType);
 
-        } else if (requestCode == EDIT_ACTIVITY_TYPE_REQUEST && resultCode == RESULT_OK) {
+            Log.d("test2", "test12");
+
+        } else {
             int id = data.getIntExtra(ACTIVITY_TYPE_NEW_EDIT_ID, -1);
 
             if (id == -1) {
@@ -121,9 +124,10 @@ public class ActivityTypeFragment extends Fragment {
             activityTypeName = data.getStringExtra(ACTIVITY_TYPE_NEW_EDIT_NAME);
 
             ActivityType activityType = new ActivityType(activityTypeName);
+            activityType.setType_id(id);
             activityTypeViewModel.update(activityType);
-
         }
+
     }
 
 }

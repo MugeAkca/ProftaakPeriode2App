@@ -50,6 +50,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -94,6 +95,8 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     private String activityTypeId;
     private ActivityViewModel activityViewModel;
     private long activityId;
+    private Button btnEndActivity;
+    private Looper myLooper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,9 +136,9 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             btnEndActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    stopLocationUpdates();
+
                     Intent intent = new Intent(v.getContext(), ActivityEndActivity.class);
-                    v.getContext().startActivity(intent);
+                    startActivity(intent);
                     finish();
                 }
             });
@@ -178,18 +181,15 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
 
     @Override
     protected void onStop() {
-        try {
             super.onStop();
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-        }catch (NullPointerException e){
-
-        }
     }
     @Override
     protected void onPause() {
         try {
             super.onPause();
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+
         }catch(NullPointerException e){
 
         }
@@ -248,6 +248,8 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             locationRequest.setInterval(10000);
             locationRequest.setFastestInterval(2000);
 
+
+
             // Create LocationSettingsRequest object using location request
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
             builder.addLocationRequest(locationRequest);
@@ -264,9 +266,12 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
                         public void onLocationResult(LocationResult locationResult) {
                             // do work here
                             onLocationChanged(locationResult.getLastLocation());
+
                         }
                     },
                     Looper.myLooper());
+
+
         }catch (NullPointerException e){
 
         }
@@ -275,11 +280,6 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     public void onLocationChanged(Location location) {
 
         try {
-            // New location has now been determined
-            String msg = "Updated Location: " +
-                    Double.toString(location.getLatitude()) + "," +
-                    Double.toString(location.getLongitude());
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
             // You can now create a LatLng Object for use with maps
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -295,7 +295,7 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
             saveLocation = new com.example.runningapp.database.entity.Location(activityId, location.getLongitude(), location.getLatitude(), location.getTime());
             locationViewModel.insert(saveLocation);
 
-            Log.d("GPS", "Longitude: " + currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
+//            Log.d("GPS", "Longitude: " + currentLocation.getLongitude() + " || Latitude:" + currentLocation.getLatitude());
 
         }catch (NullPointerException e){
 
@@ -345,11 +345,8 @@ public class ActivityStartActivity extends FragmentActivity implements OnMapRead
     }
 
     private boolean checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermissions() {

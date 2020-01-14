@@ -21,7 +21,7 @@ import com.example.runningapp.database.entity.Location;
 
 // Implementing Room database using singleton design pattern to insure only one instance of the roomdatabase exists
 @TypeConverters({Converter.class})
-@Database(entities = {Activity.class, Goal.class, ActivityType.class, Location.class}, version = 45)
+@Database(entities = {Activity.class, Goal.class, ActivityType.class, Location.class}, version = 46)
 public abstract class RunningAppDatabase extends RoomDatabase {
 
     //instance variable is created, so that it can turn "RunningAppDatabase" class into a singleton.

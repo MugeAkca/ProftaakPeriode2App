@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.print.PrinterId;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.runningapp.R;
+
+import static com.example.runningapp.activity.ActivitySelectActivityTypeGoal.SELECT_ACTIVITY_TYPE_GOAL_ID;
 
 
 public class ActivityTypeNewEdit extends AppCompatActivity {
@@ -63,6 +66,7 @@ public class ActivityTypeNewEdit extends AppCompatActivity {
 
         setResult(RESULT_OK, data);
         finish();
+
     }
 
 

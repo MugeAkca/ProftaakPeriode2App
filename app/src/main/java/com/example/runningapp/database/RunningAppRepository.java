@@ -64,7 +64,6 @@ public class RunningAppRepository {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -104,17 +103,13 @@ public class RunningAppRepository {
         return allActivities;
     }
 
-
     public LiveData<List<ActivityType>> getAllActivityTypes() {
         return allActivityTypes;
     }
 
-
-
     public LiveData<List<GoalActivitySubType>> getAllGoals() {
         return allGoals;
     }
-
 
     public LiveData<List<Location>> getAllLocations() {
         return allLocations;
@@ -132,6 +127,21 @@ public class RunningAppRepository {
         }
         return null;
     }
+
+    public List<Location> getLocationsList(long activityId) {
+        try {
+            try {
+                return new GetLocationListAsyncTask(locationDao).execute(activityId).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 //    public List<ActivityType> getAllActivityTypesSpinner(){return new getAllActivityTypesSpinner(activityTypeDao).execute();}
 //
@@ -155,6 +165,18 @@ public class RunningAppRepository {
 
 
 
+    private static class GetLocationListAsyncTask extends AsyncTask<Long, Void, List<Location>> {
+        private LocationDao locationDao;
+
+        private GetLocationListAsyncTask(LocationDao locationDao) {
+            this.locationDao = locationDao;
+        }
+
+        @Override
+        protected List<Location> doInBackground(Long... longs) {
+            return locationDao.getLocationsList(longs[0]);
+        }
+    }
 
     private static class GetLocationAsyncTask extends AsyncTask<Long, Void, LiveData<List<Location>>> {
         private LocationDao locationDao;

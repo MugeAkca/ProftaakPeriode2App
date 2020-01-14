@@ -1,5 +1,6 @@
 package com.example.runningapp.Room;
 
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -8,31 +9,29 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.runningapp.database.RunningAppDatabase;
 import com.example.runningapp.database.dao.ActivityDao;
-import com.example.runningapp.database.entity.Activity;
+import com.example.runningapp.database.dao.GoalDao;
+import com.example.runningapp.database.entity.Goal;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
-import static org.junit.Assert.assertEquals;
-
 @RunWith(AndroidJUnit4.class)
-public class SimpleEntitityReadWriteActivityTest {
-    private ActivityDao activityDao;
+public class SimpleEntitityReadWriteGoalsTest {
+    private GoalDao goalDao;
     private RunningAppDatabase db;
-    private long insertActivityId;
-    private long getActivityId;
-    private Activity activity;
-    private Activity getActivity;
+    private long insertGoalId;
+    private long getGoalId;
+    private Goal goal;
+    private long getGoal;
 
 
     @Before
     public void createDb(){
         Context context = ApplicationProvider.getApplicationContext();
         db = Room.inMemoryDatabaseBuilder(context, RunningAppDatabase.class).build();
-        activityDao = db.activityDao();
+        goalDao = db.goalDao();
     }
 
     @After
@@ -41,11 +40,7 @@ public class SimpleEntitityReadWriteActivityTest {
     }
 
     @Test
-    public void writeActivityAndReadInList() {
-        activity = new Activity("1", "2202-03-02", "2203-03-03");
-        insertActivityId = activityDao.insert(activity);
-        getActivity = activityDao.getActivity((int) insertActivityId);
-        getActivityId = getActivity.getId();
-        assertEquals(insertActivityId, getActivityId);
+    public void writeGoalAndReadInList() {
+
     }
 }

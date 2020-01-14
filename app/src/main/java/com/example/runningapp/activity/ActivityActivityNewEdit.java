@@ -2,7 +2,9 @@ package com.example.runningapp.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,19 +26,30 @@ import com.example.runningapp.adapter.ActivityTypeAdapter;
 import com.example.runningapp.adapter.LocationAdapter;
 import com.example.runningapp.database.entity.Activity;
 import com.example.runningapp.database.entity.ActivityType;
+import com.example.runningapp.database.entity.GoalActivitySubType;
 import com.example.runningapp.database.entity.Location;
 import com.example.runningapp.viewmodel.ActivityViewModel;
+import com.example.runningapp.viewmodel.GoalViewModel;
 import com.example.runningapp.viewmodel.LocationViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,9 +72,18 @@ public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapR
     private String speedActivity;
     private String activityNewEditId;
     private String pattern = "dd-MMM-yyyy HH:mm:ss";
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-    private GoogleMap mMap;
+    private ArrayList<Location> locations = new ArrayList<>();
+    private List<LatLng> routePoints;
+    private GoogleMap gmap;
+
+
+    private Polyline route;
+    private PolylineOptions routeOps;
+
+
+    private android.location.Location currentLocation;
+    private com.example.runningapp.database.entity.Location saveLocation;
+
 
 
     @Override
@@ -78,33 +101,32 @@ public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapR
         activityNewEditId = intent.getStringExtra(ACTIVITY_NEW_EDIT_ID);
 
         // Activity exists?
-        if (intent.hasExtra(ACTIVITY_NEW_EDIT_ID)) {
             setTitle("Activity");
 
             // Load location
-            RecyclerView recyclerView = findViewById(R.id.recycler_view_location);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setHasFixedSize(true);
-            final LocationAdapter adapterLocation = new LocationAdapter();
-            recyclerView.setAdapter(adapterLocation);
-
+//            RecyclerView recyclerView = findViewById(R.id.recycler_view_location);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            recyclerView.setHasFixedSize(true);
+//            final LocationAdapter adapterLocation = new LocationAdapter();
+//            recyclerView.setAdapter(adapterLocation);
+//
             locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
-            locationViewModel.getLocations(Long.valueOf(activityNewEditId)).observe(this, new Observer<List<Location>>() {
-
-                @Override
-                public void onChanged(List<Location> locations) {
-                    adapterLocation.submitList(locations);
-                }
-            });
+//            locationViewModel.getLocations(Long.valueOf(activityNewEditId)).observe(this, new Observer<List<Location>>() {
+//
+//                @Override
+//                public void onChanged(List<Location> locations) {
+//                    adapterLocation.submitList(locations);
+//                }
+//            });
 
             // Set TextEdits
             editTextActivityType.setText(intent.getStringExtra(ACTIVITY_NEW_EDIT_TYPE_NAME));
             editTextStartDate.setText(intent.getStringExtra(ACTIVITY_NEW_EDIT_START_DATE));
             editTextEndDate.setText(intent.getStringExtra(ACTIVITY_NEW_EDIT_END_DATE));
-        } else {
-            setTitle("Add Activity");
-            editTextActivityType.setText(intent.getStringExtra(ACTIVITY_NEW_EDIT_TYPE_ID));
-        }
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.activityMap);
+            mapFragment.getMapAsync(this);
     }
 
     // Save activity
@@ -131,6 +153,47 @@ public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapR
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gmap = googleMap;
+        gmap.setMyLocationEnabled(true);
+        gmap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        List<Location> arjan = locationViewModel.getLocationsList(Long.valueOf(activityNewEditId));
+
+        routeOps = new PolylineOptions()
+                .color(Color.BLUE)
+                .width(4);
+        route = gmap.addPolyline(routeOps);
+        route.setVisible(true);
+
+        for(Location locationa : arjan) {
+            onLocationChanged(locationa.getLatitude(), locationa.getLongitude());
+        }
+
+        LatLng latLng = new LatLng(arjan.get(0).getLatitude(), arjan.get(0).getLongitude());
+        Log.d("test", latLng.toString());
+        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
+
+    }
+
+    public void onLocationChanged(double l1, double l2) {
+
+        try {
+
+            LatLng latLng = new LatLng(l1, l2);
+
+            routePoints = route.getPoints();
+            routePoints.add(latLng);
+            route.setPoints(routePoints);
+
+            gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
+        }catch (NullPointerException e){
+            Log.d("locationchangedexceptio", String.valueOf(e));
+        }
+    }
+
+
     // add save button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,14 +215,14 @@ public class ActivityActivityNewEdit extends AppCompatActivity implements OnMapR
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        // Add a marker in Sydney, Australia, and move the camera.
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+////        mMap = googleMap;
+////
+////        // Add a marker in Sydney, Australia, and move the camera.
+////        LatLng sydney = new LatLng(-34, 151);
+////        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+////        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//    }
 }
 

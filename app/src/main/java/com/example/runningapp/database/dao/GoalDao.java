@@ -36,4 +36,5 @@ public interface GoalDao {
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM goal_table LEFT JOIN activity_type_table ON goal_table.activity_type_id=activity_type_table.type_id")
     LiveData<List<GoalActivitySubType>> getAllGoals2();
+
 }

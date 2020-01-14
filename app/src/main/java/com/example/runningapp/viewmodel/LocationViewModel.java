@@ -42,8 +42,14 @@ public class LocationViewModel extends AndroidViewModel {
         return repository.getLocations(activityId);
     }
 
+    public List<Location> getLocationsList(long activityId) {
+        return repository.getLocationsList(activityId);
+    }
+
     public LiveData<List<Location>> getAllLocations() {
         return allLocations;
     }
+
+
 
 }
